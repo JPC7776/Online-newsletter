@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LodgeGate Newsletter Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lg-navy: #121A2F;
+            --lg-navy-light: #1A2540;
+            --lg-navy-mid: #0D1320;
+            --lg-orange: #FF7A00;
+            --lg-orange-hover: #E86E00;
+            --lg-orange-glow: rgba(255, 122, 0, 0.15);
+            --lg-blue: #0056B3;
+            --lg-blue-light: #1A6FD1;
+            --lg-red: #E63E2A;
+            --surface-glass: rgba(18, 26, 47, 0.65);
+            --surface-card: rgba(26, 37, 64, 0.55);
+            --surface-card-hover: rgba(26, 37, 64, 0.85);
+            --text-primary: #F0F2F5;
+            --text-secondary: #8C96AB;
+            --text-muted: #5A6478;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(255, 122, 0, 0.5);
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 24px;
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
+            --shadow-glow: 0 0 40px rgba(255, 122, 0, 0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--lg-navy-mid);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── Animated background ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 10% 40%, rgba(255, 122, 0, 0.06), transparent),
+                radial-gradient(ellipse 60% 60% at 90% 20%, rgba(0, 86, 179, 0.08), transparent),
+                radial-gradient(ellipse 50% 40% at 50% 90%, rgba(230, 62, 42, 0.04), transparent);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ─── Top Navigation ─── */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 19, 32, 0.85);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 40px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topbar-logo {
+            height: 32px;
+            width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+
+        .topbar-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border-subtle);
+        }
+
+        .topbar-title {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+        }
+
+        .topbar-title span {
+            color: var(--lg-orange);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .topbar-badge {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--lg-orange);
+            background: var(--lg-orange-glow);
+            border: 1px solid rgba(255, 122, 0, 0.25);
+            padding: 5px 14px;
+            border-radius: 20px;
+        }
+
+        .topbar-version {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* ─── Main Layout ─── */
+        .main {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 32px 80px;
+        }
+
+        /* ─── Hero Section ─── */
+        .hero {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--lg-orange);
+            margin-bottom: 20px;
+        }
+
+        .hero-eyebrow::before,
+        .hero-eyebrow::after {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--lg-orange));
+        }
+
+        .hero-eyebrow::after {
+            background: linear-gradient(90deg, var(--lg-orange), transparent);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: -0.035em;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #c8cdd6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        /* ─── Steps Indicator ─── */
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 48px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            position: relative;
+        }
+
+        .step::after {
+            content: '';
+            position: absolute;
+            right: -20px;
+            width: 40px;
+            height: 1px;
+            background: var(--border-subtle);
+        }
+
+        .step:last-child::after { display: none; }
+
+        .step-num {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            transition: all 0.3s;
+        }
+
+        .step.active .step-num {
+            background: var(--lg-orange);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(255, 122, 0, 0.35);
+        }
+
+        .step.inactive .step-num {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .step.done .step-num {
+            background: #10B981;
+            color: #fff;
+        }
+
+        .step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .step.active .step-label { color: var(--text-primary); }
+        .step.inactive .step-label { color: var(--text-muted); }
+
+        /* ─── Section Containers ─── */
+        .section-card {
+            background: var(--surface-glass);
+            backdrop-filter: blur(24px) saturate(1.2);
+            -webkit-backdrop-filter: blur(24px) saturate(1.2);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s ease;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .section-icon.orange {
+            background: var(--lg-orange-glow);
+            border: 1px solid rgba(255,122,0,0.2);
+        }
+
+        .section-icon.blue {
+            background: rgba(0, 86, 179, 0.15);
+            border: 1px solid rgba(0,86,179,0.2);
+        }
+
+        .section-icon.green {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16,185,129,0.2);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ─── Template Grid ─── */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .template-card {
+            position: relative;
+            background: var(--surface-card);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .template-card:hover {
+            border-color: rgba(255, 122, 0, 0.3);
+            background: var(--surface-card-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .template-card.selected {
+            border-color: var(--lg-orange);
+            box-shadow: var(--shadow-glow), 0 0 0 1px var(--lg-orange);
+        }
+
+        .template-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--lg-orange);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(255,122,0,0.4);
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .template-preview-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        /* Mini email previews for each template style */
+        .tp-header {
+            height: 18px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 5px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .tp-hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+        }
+
+        .tp-hero-title {
+            font-size: 7px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        .tp-hero-sub {
+            font-size: 4px;
+            opacity: 0.7;
+            text-align: center;
+        }
+
+        .tp-btn {
+            width: 36px;
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 4px;
+        }
+
+        .tp-row {
+            display: flex;
+            gap: 4px;
+            padding: 4px 6px;
+        }
+
+        .tp-block {
+            border-radius: 3px;
+            flex: 1;
+            height: 20px;
+        }
+
+        .tp-line {
+            height: 3px;
+            border-radius: 1px;
+            margin: 2px 6px;
+        }
+
+        /* Template 1: Executive Dark */
+        .tp-exec-dark .tp-header { background: #121A2F; }
+        .tp-exec-dark .tp-hero { background: #121A2F; color: #fff; }
+        .tp-exec-dark .tp-btn { background: #FF7A00; }
+        .tp-exec-dark .tp-row { background: #fff; }
+        .tp-exec-dark .tp-block { background: #F0F2F5; }
+        .tp-exec-dark .tp-line { background: #E8E8E8; }
+
+        /* Template 2: Sunrise Warm */
+        .tp-sunrise .tp-header { background: #FF7A00; }
+        .tp-sunrise .tp-hero { background: linear-gradient(135deg, #FF7A00, #FF9F43); color: #fff; }
+        .tp-sunrise .tp-btn { background: #121A2F; }
+        .tp-sunrise .tp-row { background: #FFF8F0; }
+        .tp-sunrise .tp-block { background: #FFE8CC; }
+        .tp-sunrise .tp-line { background: #FFD4A3; }
+
+        /* Template 3: Ocean Blue */
+        .tp-ocean .tp-header { background: #0056B3; }
+        .tp-ocean .tp-hero { background: linear-gradient(135deg, #0056B3, #1A6FD1); color: #fff; }
+        .tp-ocean .tp-btn { background: #FF7A00; }
+        .tp-ocean .tp-row { background: #F0F7FF; }
+        .tp-ocean .tp-block { background: #D6E9FF; }
+        .tp-ocean .tp-line { background: #B8D8FF; }
+
+        /* Template 4: Clean Minimal */
+        .tp-minimal .tp-header { background: #ffffff; border-bottom: 2px solid #FF7A00; }
+        .tp-minimal .tp-header { color: #121A2F; }
+        .tp-minimal .tp-hero { background: #ffffff; color: #121A2F; }
+        .tp-minimal .tp-btn { background: #FF7A00; }
+        .tp-minimal .tp-row { background: #FAFAFA; }
+        .tp-minimal .tp-block { background: #EEEEEE; }
+        .tp-minimal .tp-line { background: #E0E0E0; }
+
+        /* Template 5: Midnight Luxe */
+        .tp-midnight .tp-header { background: #0D0D1A; }
+        .tp-midnight .tp-hero { background: linear-gradient(135deg, #0D0D1A, #1A1A3E); color: #fff; }
+        .tp-midnight .tp-btn { background: #C9A84C; }
+        .tp-midnight .tp-row { background: #14142B; }
+        .tp-midnight .tp-block { background: #1E1E3F; }
+        .tp-midnight .tp-line { background: #2A2A50; }
+
+        /* Template 6: Fresh Spring */
+        .tp-spring .tp-header { background: #10B981; }
+        .tp-spring .tp-hero { background: linear-gradient(135deg, #10B981, #34D399); color: #fff; }
+        .tp-spring .tp-btn { background: #121A2F; }
+        .tp-spring .tp-row { background: #F0FFF8; }
+        .tp-spring .tp-block { background: #D1FAE5; }
+        .tp-spring .tp-line { background: #A7F3D0; }
+
+        /* Template 7: Bold Magazine */
+        .tp-magazine .tp-header { background: #E63E2A; }
+        .tp-magazine .tp-hero { background: #E63E2A; color: #fff; }
+        .tp-magazine .tp-btn { background: #121A2F; }
+        .tp-magazine .tp-row { background: #fff; }
+        .tp-magazine .tp-block { background: #FEE2DE; }
+        .tp-magazine .tp-line { background: #FECACA; }
+
+        /* Template 8: Slate Pro */
+        .tp-slate .tp-header { background: #374151; }
+        .tp-slate .tp-hero { background: linear-gradient(135deg, #374151, #4B5563); color: #fff; }
+        .tp-slate .tp-btn { background: #FF7A00; }
+        .tp-slate .tp-row { background: #F9FAFB; }
+        .tp-slate .tp-block { background: #E5E7EB; }
+        .tp-slate .tp-line { background: #D1D5DB; }
+
+        .template-info {
+            padding: 14px 14px 16px;
+        }
+
+        .template-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+        }
+
+        .template-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .template-tags {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .template-tag {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.06);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .template-tag.rec {
+            background: var(--lg-orange-glow);
+            color: var(--lg-orange);
+            border-color: rgba(255,122,0,0.2);
+        }
+
+        /* ─── Upload Zone ─── */
+        .upload-zone {
+            border: 2px dashed rgba(255, 122, 0, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 56px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 122, 0, 0.02);
+            position: relative;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: var(--lg-orange);
+            background: rgba(255, 122, 0, 0.06);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .upload-icon-wrap {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: var(--lg-orange-glow);
+            border: 1px solid rgba(255,122,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 28px;
+        }
+
+        .upload-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .upload-hint {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .upload-formats {
+            margin-top: 14px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* ─── Selected File ─── */
+        .selected-file {
+            margin-top: 20px;
+            padding: 14px 20px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--radius-sm);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .selected-file .file-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #10B981;
+        }
+
+        .remove-btn {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            background: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .remove-btn:hover {
+            border-color: var(--lg-red);
+            color: var(--lg-red);
+        }
+
+        /* ─── Generate Button ─── */
+        .btn-generate {
+            background: linear-gradient(135deg, var(--lg-orange) 0%, #E86E00 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 48px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 28px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 24px rgba(255, 122, 0, 0.35);
+            display: none;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(255, 122, 0, 0.45);
+        }
+
+        .btn-generate:active {
+            transform: translateY(0);
+        }
+
+        /* ─── Spinner ─── */
+        .spinner-wrap {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin: 28px 0;
+        }
+
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 4px solid rgba(255,255,255,0.08);
+            border-top: 4px solid var(--lg-orange);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        .spinner-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* ─── Result Section ─── */
+        .result-section {
+            display: none;
+        }
+
+        .success-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: var(--radius-sm);
+            margin-bottom: 24px;
+        }
+
+        .success-icon {
+            width: 36px;
+            height: 36px;
+            background: #10B981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .success-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #10B981;
+        }
+
+        .success-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-copy {
+            background: #10B981;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-copy:hover { background: #059669; transform: translateY(-1px); }
+
+        .btn-dl {
+            background: transparent;
+            border: 2px solid var(--border-subtle);
+            color: white;
+        }
+
+        .btn-dl:hover { border-color: #fff; background: rgba(255,255,255,0.04); }
+
+        /* ─── Preview ─── */
+        .preview-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+
+        .preview-box {
+            width: 100%;
+            height: 520px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            background: #ffffff;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .preview-box iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ─── Footer ─── */
+        .studio-footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .studio-footer a {
+            color: var(--lg-orange);
+            text-decoration: none;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 900px) {
+            .template-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .greeting-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main { padding: 32px 16px 60px; }
+            .section-card { padding: 28px; }
+            .hero h1 { font-size: 30px; }
+        }
+
+        @media (max-width: 520px) {
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+            .greeting-grid {
+                grid-template-columns: 1fr;
+            }
+            .topbar { padding: 0 16px; }
+            .steps { flex-direction: column; align-items: center; }
+            .step::after { display: none; }
+            .result-actions { flex-direction: column; }
+        }
+
+        /* ─── Transitions ─── */
+        .fade-in {
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── Greeting Style Cards ─── */
+        .greeting-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .greeting-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: var(--surface-card);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px 16px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .greeting-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            background: var(--surface-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .greeting-card.selected {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.12), 0 0 0 1px #8B5CF6;
+        }
+
+        .greeting-card-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 10px;
+        }
+
+        .greeting-card-body {
+            min-width: 0;
+        }
+
+        .greeting-card-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .greeting-card-preview {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .greeting-card-preview .merge-tag {
+            color: #8B5CF6;
+            font-weight: 700;
+            font-style: normal;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .greeting-card-fallback {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .greeting-info-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+            padding: 14px 18px;
+            background: rgba(139, 92, 246, 0.06);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .greeting-info-icon {
+            color: #8B5CF6;
+            font-weight: 700;
+        }
+
+        .greeting-info-bar code {
+            background: rgba(139, 92, 246, 0.15);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #A78BFA;
+        }
+
+        /* Hidden utility */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- ═══ Top Navigation Bar ═══ -->
+<nav class="topbar">
+    <div class="topbar-left">
+        {% if logo_b64 %}
+        <img src="data:image/png;base64,{{ logo_b64 }}" alt="LodgeGate WEB" class="topbar-logo">
+        {% else %}
+        <span style="font-size:18px;font-weight:900;color:#fff">Lodge<span style="color:#FF7A00">Gate</span></span>
+        {% endif %}
+        <div class="topbar-divider"></div>
+        <div class="topbar-title">Newsletter <span>Studio</span></div>
+    </div>
+    <div class="topbar-right">
+        <span class="topbar-badge">✦ Auto Generator</span>
+        <span class="topbar-version">v2.0</span>
+    </div>
+</nav>
+
+<!-- ═══ Main Content ═══ -->
+<main class="main">
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+        <div class="hero-eyebrow">Newsletter Automation</div>
+        <h1>Create Stunning<br>Hotel Newsletters</h1>
+        <p class="hero-sub">Choose a premium template, drop in your Word document, and get pixel-perfect Mailchimp-ready HTML in seconds.</p>
+    </section>
+
+    <!-- Steps -->
+    <div class="steps fade-in" id="stepsBar">
+        <div class="step active" data-step="1">
+            <span class="step-num">1</span>
+            <span class="step-label">Choose Template</span>
+        </div>
+        <div class="step inactive" data-step="2">
+            <span class="step-num">2</span>
+            <span class="step-label">Upload Content</span>
+        </div>
+        <div class="step inactive" data-step="3">
+            <span class="step-num">3</span>
+            <span class="step-label">Export</span>
+        </div>
+    </div>
+
+    <!-- STEP 1: Template Selection -->
+    <div class="section-card fade-in" id="templateSection">
+        <div class="section-header">
+            <div class="section-header-left">
+                <div class="section-icon orange">🎨</div>
+                <div>
+                    <div class="section-title">Choose Your Template</div>
+                    <div class="section-subtitle">Select from 8 premium email designs</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="template-grid" id="templateGrid">
+
+            <!-- Template 1: Executive Dark -->
+            <div class="template-card selected" data-template="executive-dark" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-exec-dark">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Executive Update</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.6)">Professional hotel newsletter</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                        <div class="tp-line" style="background:#E8E8E8"></div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Executive Dark</div>
+                    <div class="template-desc">Premium navy & orange. Clean corporate feel.</div>
+                    <div class="template-tags">
+                        <span class="template-tag rec">Recommended</span>
+                        <span class="template-tag">Corporate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 2: Sunrise Warm -->
+            <div class="template-card" data-template="sunrise-warm" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-sunrise">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Warm Welcome</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Friendly hospitality tone</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Sunrise Warm</div>
+                    <div class="template-desc">Warm orange gradients. Friendly & inviting.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Hospitality</span>
+                        <span class="template-tag">Warm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 3: Ocean Blue -->
+            <div class="template-card" data-template="ocean-blue" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-ocean">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Ocean Blue</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Trust & reliability</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Ocean Blue</div>
+                    <div class="template-desc">Professional blue palette. Tech-forward.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Tech</span>
+                        <span class="template-tag">Professional</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 4: Clean Minimal -->
+            <div class="template-card" data-template="clean-minimal" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-minimal">
+                        <div class="tp-header" style="color:#121A2F">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#121A2F">Clean & Simple</div>
+                            <div class="tp-hero-sub" style="color:#888">Less is more</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row" style="background:#FAFAFA">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Clean Minimal</div>
+                    <div class="template-desc">White & bright. Maximum readability.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Minimal</span>
+                        <span class="template-tag">Light</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 5: Midnight Luxe -->
+            <div class="template-card" data-template="midnight-luxe" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-midnight">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#C9A84C">Midnight Luxe</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.5)">5-star luxury aesthetic</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row" style="background:#14142B">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Midnight Luxe</div>
+                    <div class="template-desc">Dark mode with gold accents. Premium boutique.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Luxury</span>
+                        <span class="template-tag">Dark</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 6: Fresh Spring -->
+            <div class="template-card" data-template="fresh-spring" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-spring">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Fresh & Green</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Eco & sustainability</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row" style="background:#F0FFF8">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Fresh Spring</div>
+                    <div class="template-desc">Green tones. Eco-friendly & modern.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Eco</span>
+                        <span class="template-tag">Fresh</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 7: Bold Magazine -->
+            <div class="template-card" data-template="bold-magazine" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-magazine">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Bold & Dynamic</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Magazine-style layout</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Bold Magazine</div>
+                    <div class="template-desc">Red accents. Eye-catching editorial style.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Bold</span>
+                        <span class="template-tag">Editorial</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 8: Slate Pro -->
+            <div class="template-card" data-template="slate-pro" onclick="selectTemplate(this)">
+                <div class="template-preview">
+                    <div class="template-preview-inner tp-slate">
+                        <div class="tp-header">LG</div>
+                        <div class="tp-hero">
+                            <div class="tp-hero-title" style="color:#fff">Slate Professional</div>
+                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.6)">Enterprise newsletter</div>
+                            <div class="tp-btn"></div>
+                        </div>
+                        <div class="tp-row">
+                            <div class="tp-block"></div>
+                            <div class="tp-block"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <div class="template-name">Slate Pro</div>
+                    <div class="template-desc">Neutral grey tones. Enterprise-grade.</div>
+                    <div class="template-tags">
+                        <span class="template-tag">Enterprise</span>
+                        <span class="template-tag">Neutral</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- STEP 1.5: Greeting Style Selection -->
+    <div class="section-card fade-in" id="greetingSection">
+        <div class="section-header">
+            <div class="section-header-left">
+                <div class="section-icon" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2)">👋</div>
+                <div>
+                    <div class="section-title">Personal Greeting</div>
+                    <div class="section-subtitle">Greet each contact by their first name via Mailchimp</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="greeting-grid" id="greetingGrid">
+
+            <!-- No Greeting -->
+            <div class="greeting-card selected" data-greeting="none" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🚫</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">No Greeting</div>
+                    <div class="greeting-card-preview">Newsletter starts directly with content</div>
+                </div>
+            </div>
+
+            <!-- Formal NL -->
+            <div class="greeting-card" data-greeting="formal-nl" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🇳🇱</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">Formeel (NL)</div>
+                    <div class="greeting-card-preview">"Beste <span class="merge-tag">Jan</span>,"</div>
+                    <div class="greeting-card-fallback">Fallback: "Beste relatie,"</div>
+                </div>
+            </div>
+
+            <!-- Informal NL -->
+            <div class="greeting-card" data-greeting="casual-nl" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🇳🇱</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">Informeel (NL)</div>
+                    <div class="greeting-card-preview">"Hoi <span class="merge-tag">Jan</span>! 👋"</div>
+                    <div class="greeting-card-fallback">Fallback: "Hoi! 👋"</div>
+                </div>
+            </div>
+
+            <!-- Formal EN -->
+            <div class="greeting-card" data-greeting="formal-en" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🇬🇧</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">Formal (EN)</div>
+                    <div class="greeting-card-preview">"Dear <span class="merge-tag">John</span>,"</div>
+                    <div class="greeting-card-fallback">Fallback: "Dear Sir/Madam,"</div>
+                </div>
+            </div>
+
+            <!-- Casual EN -->
+            <div class="greeting-card" data-greeting="casual-en" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🇬🇧</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">Casual (EN)</div>
+                    <div class="greeting-card-preview">"Hey <span class="merge-tag">John</span>!"</div>
+                    <div class="greeting-card-fallback">Fallback: "Hey there!"</div>
+                </div>
+            </div>
+
+            <!-- Bilingual -->
+            <div class="greeting-card" data-greeting="bilingual" onclick="selectGreeting(this)">
+                <div class="greeting-card-icon">🌍</div>
+                <div class="greeting-card-body">
+                    <div class="greeting-card-name">Bilingual</div>
+                    <div class="greeting-card-preview">"Beste <span class="merge-tag">Jan</span> / Dear <span class="merge-tag">Jan</span>,"</div>
+                    <div class="greeting-card-fallback">Fallback: "Beste relatie / Dear partner,"</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="greeting-info-bar" id="greetingInfoBar" style="display:none">
+            <span class="greeting-info-icon">✦</span>
+            <span class="greeting-info-text">Uses Mailchimp <code>*|FNAME|*</code> merge tag — each recipient sees their own name from the contact list.</span>
+        </div>
+    </div>
+
+    <!-- STEP 2: Upload -->
+    <div class="section-card fade-in" id="uploadSection">
+        <div class="section-header">
+            <div class="section-header-left">
+                <div class="section-icon blue">📄</div>
+                <div>
+                    <div class="section-title">Upload Newsletter Content</div>
+                    <div class="section-subtitle">Drop your monthly Word document below</div>
+                </div>
+            </div>
+        </div>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="hidden" name="template" id="templateInput" value="executive-dark">
+            <input type="hidden" name="greeting" id="greetingInput" value="none">
+
+            <div class="upload-zone" id="dropZone">
+                <div class="upload-icon-wrap">📥</div>
+                <div class="upload-title">Drop your .docx newsletter here</div>
+                <div class="upload-hint">or click to browse files</div>
+                <div class="upload-formats">Accepted: Microsoft Word (.docx)</div>
+                <input type="file" name="file" id="fileInput" accept=".docx" style="display:none">
+            </div>
+
+            <div class="selected-file" id="fileDisplay">
+                <span class="file-icon">
+                    <span>📎</span>
+                    <span id="fileName"></span>
+                </span>
+                <button type="button" class="remove-btn" onclick="clearFile()">✕ Remove</button>
+            </div>
+
+            <button type="submit" class="btn-generate" id="submitBtn">✦ Generate Newsletter</button>
+
+            <div class="spinner-wrap" id="spinnerWrap">
+                <div class="spinner"></div>
+                <span class="spinner-text">Compiling your newsletter...</span>
+            </div>
+        </form>
+    </div>
+
+    <!-- STEP 3: Result -->
+    <div class="section-card result-section" id="resultArea">
+        <div class="section-header">
+            <div class="section-header-left">
+                <div class="section-icon green">✨</div>
+                <div>
+                    <div class="section-title">Your Newsletter is Ready</div>
+                    <div class="section-subtitle">Copy the HTML or download the file</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="success-banner">
+            <div class="success-icon">✓</div>
+            <div>
+                <div class="success-text">Newsletter compiled successfully!</div>
+                <div class="success-sub">Mailchimp-ready HTML with bilingual NL/EN layout</div>
+            </div>
+        </div>
+
+        <div class="result-actions">
+            <button type="button" class="btn-action btn-copy" id="copyBtn" onclick="copyHTML()">
+                📋 Copy Code for Mailchimp
+            </button>
+            <a href="/download" class="btn-action btn-dl" target="_blank">
+                ⬇ Download .html
+            </a>
+        </div>
+
+        <div class="preview-label">Live Preview</div>
+        <div class="preview-box">
+            <iframe id="previewFrame" src="about:blank"></iframe>
+        </div>
+    </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="studio-footer">
+    <p>LodgeGate Newsletter Studio &bull; Powered by <a href="https://lodgegate.com" target="_blank">LodgeGate PMS</a> & <a href="https://rezxs.com" target="_blank">RezXS</a></p>
+</footer>
+
+<script>
+    /* ─── Template Selection ─── */
+    let selectedTemplate = 'executive-dark';
+    let selectedGreeting = 'none';
+
+    function selectTemplate(el) {
+        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedTemplate = el.dataset.template;
+        document.getElementById('templateInput').value = selectedTemplate;
+    }
+
+    /* ─── Greeting Selection ─── */
+    function selectGreeting(el) {
+        document.querySelectorAll('.greeting-card').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedGreeting = el.dataset.greeting;
+        document.getElementById('greetingInput').value = selectedGreeting;
+
+        // Show info bar when a personalized greeting is chosen
+        const infoBar = document.getElementById('greetingInfoBar');
+        if (selectedGreeting !== 'none') {
+            infoBar.style.display = 'flex';
+        } else {
+            infoBar.style.display = 'none';
+        }
+    }
+
+    /* ─── File Upload ─── */
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileDisplay = document.getElementById('fileDisplay');
+    const fileName = document.getElementById('fileName');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('uploadForm');
+    const spinnerWrap = document.getElementById('spinnerWrap');
+    const resultArea = document.getElementById('resultArea');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            handleFileSelect();
+        }
+    });
+
+    fileInput.addEventListener('change', handleFileSelect);
+
+    function handleFileSelect() {
+        if (fileInput.files.length) {
+            fileName.textContent = fileInput.files[0].name;
+            fileDisplay.style.display = 'flex';
+            submitBtn.style.display = 'block';
+            resultArea.style.display = 'none';
+            updateSteps(2);
+        }
+    }
+
+    function clearFile() {
+        fileInput.value = '';
+        fileDisplay.style.display = 'none';
+        submitBtn.style.display = 'none';
+        updateSteps(1);
+    }
+
+    function updateSteps(active) {
+        document.querySelectorAll('.step').forEach(s => {
+            const n = parseInt(s.dataset.step);
+            s.classList.remove('active', 'inactive', 'done');
+            if (n < active) s.classList.add('done');
+            else if (n === active) s.classList.add('active');
+            else s.classList.add('inactive');
+        });
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!fileInput.files.length) return;
+
+        submitBtn.style.display = 'none';
+        spinnerWrap.style.display = 'flex';
+        resultArea.style.display = 'none';
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('template', selectedTemplate);
+        formData.append('greeting', selectedGreeting);
+
+        try {
+            const res = await fetch('/generate', {
+                method: 'POST',
+                body: formData
+            });
+
+            spinnerWrap.style.display = 'none';
+
+            if (res.ok) {
+                resultArea.style.display = 'block';
+                resultArea.classList.add('fade-in');
+                document.getElementById('previewFrame').src = '/preview?' + Date.now();
+                updateSteps(3);
+                resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                const data = await res.json();
+                alert('Error: ' + (data.error || 'Unknown error'));
+                submitBtn.style.display = 'block';
+            }
+        } catch (err) {
+            spinnerWrap.style.display = 'none';
+            alert('Connection error. Is the studio server running?');
+            submitBtn.style.display = 'block';
+        }
+    });
+
+    async function copyHTML() {
+        try {
+            const res = await fetch('/raw_html');
+            const text = await res.text();
+            await navigator.clipboard.writeText(text);
+            const btn = document.getElementById('copyBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '✨ Copied to Clipboard!';
+            btn.style.background = '#059669';
+            setTimeout(() => {
+                btn.innerHTML = orig;
+                btn.style.background = '#10B981';
+            }, 3000);
+        } catch (e) {
+            alert('Failed to copy. Please use the download button.');
+        }
+    }
+</script>
+</body>
+</html>
