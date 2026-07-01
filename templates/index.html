@@ -1341,6 +1341,22 @@
                 <button type="button" class="remove-btn" onclick="clearFile()">✕ Remove</button>
             </div>
 
+            <div class="custom-images-accordion" style="margin: 20px 0; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.02); overflow: hidden;">
+                <div class="custom-images-toggle" onclick="toggleCustomImagesBox()" style="padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; color: var(--text);">
+                    <span>🖼️ Aangepaste Afbeelding URL's vooraf opgeven (Optioneel)</span>
+                    <span id="customImgArrow" style="transition: transform 0.2s;">▼</span>
+                </div>
+                <div id="customImagesBody" style="display: none; padding: 0 18px 18px; border-top: 1px solid var(--border);">
+                    <div style="font-size: 13px; color: var(--text-sub); margin-top: 12px; margin-bottom: 12px;">
+                        Laat leeg om automatisch passende sfeerfoto's te gebruiken. U kunt achteraf in Stap 3 ook elke foto live aanpassen!
+                    </div>
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text);">Hero Banner Achtergrond URL:</label>
+                    <input type="url" id="preHeroImg" placeholder="https://images.unsplash.com/..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 13px; box-sizing: border-box; margin-bottom: 14px;">
+                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text);">Artikel Afbeelding URL's (één URL per regel, op volgorde):</label>
+                    <textarea id="preArticleImgs" rows="3" placeholder="https://images.unsplash.com/foto-1...&#10;https://images.unsplash.com/foto-2..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 13px; box-sizing: border-box; font-family: monospace;"></textarea>
+                </div>
+            </div>
+
             <button type="submit" class="btn-generate" id="submitBtn">✦ Generate Newsletter</button>
 
             <div class="spinner-wrap" id="spinnerWrap">
@@ -1377,6 +1393,32 @@
             <a href="/download" class="btn-action btn-dl" target="_blank">
                 ⬇ Download .html
             </a>
+        </div>
+
+        <!-- Live Image Editor Panel -->
+        <div class="image-editor-card" style="margin: 30px 0; border: 1px solid var(--border); border-radius: 16px; background: rgba(255,255,255,0.03); padding: 24px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="font-size: 24px;">🖼️</div>
+                    <div>
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text);">Afbeelding URL's in de e-mail wijzigen</div>
+                        <div style="font-size: 13px; color: var(--text-sub);">Pas hieronder elke foto aan en ververs direct de mail</div>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 13px; color: var(--text-sub); display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                        <input type="checkbox" id="syncLangCheck" checked style="accent-color: #10B981;">
+                        🔗 Sync NL & EN foto's automatisch
+                    </label>
+                </div>
+            </div>
+            <div id="imageEditorList" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; max-height: 420px; overflow-y: auto; padding-right: 6px;">
+                <!-- Dynamically populated -->
+            </div>
+            <button type="button" onclick="saveUpdatedImages()" style="background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; border: none; border-radius: 10px; padding: 12px 24px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: opacity 0.2s;">
+                <span>🔄 Afbeeldingen Updaten & Preview Verversen</span>
+            </button>
+            <div id="imgUpdateFeedback" style="display: none; text-align: center; margin-top: 10px; font-size: 13px; font-weight: 600; color: #10B981;"></div>
         </div>
 
         <div class="preview-label">Live Preview</div>
@@ -1489,6 +1531,8 @@
         formData.append('file', fileInput.files[0]);
         formData.append('template', selectedTemplate);
         formData.append('greeting', selectedGreeting);
+        formData.append('hero_image_url', document.getElementById('preHeroImg').value || '');
+        formData.append('article_images', document.getElementById('preArticleImgs').value || '');
 
         try {
             const res = await fetch('/generate', {
@@ -1503,6 +1547,7 @@
                 resultArea.classList.add('fade-in');
                 document.getElementById('previewFrame').src = '/preview?' + Date.now();
                 updateSteps(3);
+                loadGeneratedImages();
                 resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
                 const data = await res.json();
@@ -1515,6 +1560,101 @@
             submitBtn.style.display = 'block';
         }
     });
+
+    function toggleCustomImagesBox() {
+        const body = document.getElementById('customImagesBody');
+        const arrow = document.getElementById('customImgArrow');
+        if (body.style.display === 'none') {
+            body.style.display = 'block';
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            body.style.display = 'none';
+            arrow.style.transform = 'rotate(0deg)';
+        }
+    }
+
+    let currentImageList = [];
+
+    async function loadGeneratedImages() {
+        const listContainer = document.getElementById('imageEditorList');
+        listContainer.innerHTML = '<div style="color: var(--text-sub); font-size: 13px;">Afbeeldingen laden...</div>';
+        try {
+            const res = await fetch('/get_images?' + Date.now());
+            const data = await res.json();
+            if (data.status === 'success' && data.images) {
+                currentImageList = data.images;
+                renderImageEditorList();
+            }
+        } catch (e) {
+            listContainer.innerHTML = '<div style="color: #ef4444; font-size: 13px;">Kon afbeeldingen niet laden.</div>';
+        }
+    }
+
+    function renderImageEditorList() {
+        const listContainer = document.getElementById('imageEditorList');
+        listContainer.innerHTML = '';
+        currentImageList.forEach((img, idx) => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; align-items: center; gap: 14px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);';
+            row.innerHTML = `
+                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/64x44?text=Foto'" style="width: 64px; height: 44px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222;">
+                <div style="flex: 1; min-width: 0;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${img.label}</div>
+                    <input type="url" data-id="${img.id}" value="${img.url}" placeholder="https://..." oninput="handleImageInput('${img.id}', this.value)" onchange="saveUpdatedImages()" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 12px; box-sizing: border-box;">
+                </div>
+            `;
+            listContainer.appendChild(row);
+        });
+    }
+
+    function handleImageInput(changedId, val) {
+        const syncChecked = document.getElementById('syncLangCheck')?.checked;
+        if (!syncChecked) return;
+        
+        if (changedId.includes('_nl_')) {
+            const enId = changedId.replace('_nl_', '_en_');
+            const enInput = document.querySelector(`input[data-id="${enId}"]`);
+            if (enInput) {
+                enInput.value = val;
+            }
+        }
+    }
+
+    async function saveUpdatedImages() {
+        const inputs = document.querySelectorAll('#imageEditorList input[data-id]');
+        const updates = {};
+        inputs.forEach(inp => {
+            updates[inp.dataset.id] = inp.value.trim();
+        });
+
+        const fb = document.getElementById('imgUpdateFeedback');
+        if (fb) fb.style.display = 'none';
+
+        try {
+            const res = await fetch('/update_images', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ updates })
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                const frame = document.getElementById('previewFrame');
+                frame.src = 'about:blank';
+                setTimeout(() => {
+                    frame.src = '/preview?t=' + Date.now();
+                }, 50);
+                if (fb) {
+                    fb.textContent = '✅ Afbeeldingen succesvol bijgewerkt! Live preview is herladen.';
+                    fb.style.display = 'block';
+                    setTimeout(() => { fb.style.display = 'none'; }, 5000);
+                }
+            } else {
+                alert('Fout bij updaten: ' + data.error);
+            }
+        } catch (e) {
+            alert('Netwerkfout bij updaten van afbeeldingen.');
+        }
+    }
 
     async function copyHTML() {
         try {
