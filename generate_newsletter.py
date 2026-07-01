@@ -482,7 +482,7 @@ def get_unique_image_pool():
     }
 
 
-def enrich_article(article, lang='nl'):
+def enrich_article(article, lang='nl', custom_image_url=None):
     """Enriches an article for either Dutch or English edition."""
     title_nl = article['title_nl']
     paragraphs_list = article['paragraphs_nl'] if lang == 'nl' else translate_paragraphs_to_en(article['paragraphs_nl'])
@@ -512,7 +512,7 @@ def enrich_article(article, lang='nl'):
 
     key = title_nl.lower().strip()
     fallback_img = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80'
-    image = pool.get(key, fallback_img)
+    image = custom_image_url if (custom_image_url and custom_image_url.strip()) else pool.get(key, fallback_img)
 
     if key in curated_map:
         info = curated_map[key]
@@ -562,7 +562,7 @@ def render_article_variation(enriched, variation, btn_text, t, article_id='art')
                     <tr>
                         <td style="background-color:{bg};padding:45px 40px">
                             <a href="{enriched['link']}" target="_blank">
-                                <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" width="520" style="width:100%;max-width:520px;border-radius:12px;margin-bottom:22px;display:block;object-fit:cover;max-height:260px" role="presentation">
+                                <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" width="520" style="width:100%;max-width:520px;border-radius:12px;margin-bottom:22px;display:block;object-fit:cover;max-height:260px" role="presentation" border="0">
                             </a>
                             <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 8px;display:block">
                                 ✦ {enriched['category']}
@@ -585,29 +585,51 @@ def render_article_variation(enriched, variation, btn_text, t, article_id='art')
                     <!-- ===== VARIATION B: 2-COLUMN SPLIT ===== -->
                     <tr>
                         <td style="background-color:{bg};padding:45px 30px">
-                            <table class="two-col" role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
-                                <tr>
-                                    <td style="width:45%;vertical-align:top;padding:10px">
-                                        <a href="{enriched['link']}" target="_blank">
-                                            <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;object-fit:cover;height:240px;display:block" role="presentation">
-                                        </a>
-                                    </td>
-                                    <td style="width:55%;vertical-align:top;padding:10px">
-                                        <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:6px">
-                                            ✦ {enriched['category']}
-                                        </span>
-                                        <h3 style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:20px;font-weight:800;line-height:1.3;margin:0 0 10px">
-                                            {enriched['title']}
-                                        </h3>
-                                        <p style="color:{t['body_text_alt']};font-family:Arial,sans-serif;font-size:14px;line-height:1.65;margin:0 0 18px">
-                                            {formatted_text}
-                                        </p>
-                                        <a href="{enriched['link']}" target="_blank" style="color:{t['accent']};font-family:Arial,sans-serif;font-weight:700;text-decoration:none;font-size:14px">
-                                            {btn_text} &rarr;
-                                        </a>
-                                    </td>
-                                </tr>
+                            <!--[if mso]>
+                            <table role="presentation" width="540" cellspacing="0" cellpadding="0" border="0">
+                            <tr>
+                            <td width="235" valign="top" style="padding:10px;">
+                            <![endif]-->
+                            <div style="display:inline-block;width:100%;max-width:235px;vertical-align:top">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td style="padding:10px">
+                                            <a href="{enriched['link']}" target="_blank">
+                                                <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" width="215" style="width:100%;max-width:215px;border-radius:10px;object-fit:cover;height:240px;display:block" role="presentation" border="0">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+                            <td width="305" valign="top" style="padding:10px;">
+                            <![endif]-->
+                            <div style="display:inline-block;width:100%;max-width:305px;vertical-align:top">
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tr>
+                                        <td style="padding:10px">
+                                            <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:6px">
+                                                ✦ {enriched['category']}
+                                            </span>
+                                            <h3 style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:20px;font-weight:800;line-height:1.3;margin:0 0 10px">
+                                                {enriched['title']}
+                                            </h3>
+                                            <p style="color:{t['body_text_alt']};font-family:Arial,sans-serif;font-size:14px;line-height:1.65;margin:0 0 18px">
+                                                {formatted_text}
+                                            </p>
+                                            <a href="{enriched['link']}" target="_blank" style="color:{t['accent']};font-family:Arial,sans-serif;font-weight:700;text-decoration:none;font-size:14px">
+                                                {btn_text} &rarr;
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+                            </tr>
                             </table>
+                            <![endif]-->
                         </td>
                     </tr>
 """
@@ -617,42 +639,47 @@ def render_article_variation(enriched, variation, btn_text, t, article_id='art')
                     <!-- ===== VARIATION C: HIGHLIGHT PRODUCT CARD ===== -->
                     <tr>
                         <td style="background-color:{bg};padding:45px 40px">
-                            <div style="background:{t['card_bg']};border-radius:16px;padding:32px 28px;border-top:5px solid {t['card_border']};box-shadow:0 8px 24px {t['card_shadow']}">
-                                <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 8px;display:block">
-                                    ✦ {enriched['category']}
-                                </span>
-                                <h2 style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:22px;font-weight:800;line-height:1.25;margin:0 0 14px">
-                                    {enriched['title']}
-                                </h2>
-                                <a href="{enriched['link']}" target="_blank">
-                                    <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;margin-bottom:18px;max-height:220px;object-fit:cover;display:block" role="presentation">
-                                </a>
-                                <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.7;margin:0 0 22px">
-                                    {formatted_text}
-                                </p>
-                                <a href="{enriched['link']}" target="_blank" style="background-color:{t['dark_btn_bg']};border-radius:50px;color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:12px 30px;text-decoration:none">
-                                    {btn_text} &rarr;
-                                </a>
-                            </div>
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:{t['card_bg']};border-radius:16px;border-top:5px solid {t['card_border']};box-shadow:0 8px 24px {t['card_shadow']}">
+                                <tr>
+                                    <td style="padding:32px 28px;background-color:{t['card_bg']};border-radius:16px">
+                                        <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 8px;display:block">
+                                            ✦ {enriched['category']}
+                                        </span>
+                                        <h2 style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:22px;font-weight:800;line-height:1.25;margin:0 0 14px">
+                                            {enriched['title']}
+                                        </h2>
+                                        <a href="{enriched['link']}" target="_blank">
+                                            <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" width="464" style="width:100%;max-width:464px;border-radius:10px;margin-bottom:18px;max-height:220px;object-fit:cover;display:block" role="presentation" border="0">
+                                        </a>
+                                        <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.7;margin:0 0 22px">
+                                            {formatted_text}
+                                        </p>
+                                        <a href="{enriched['link']}" target="_blank" style="background-color:{t['dark_btn_bg']};border-radius:50px;color:#ffffff;display:inline-block;font-family:Arial,sans-serif;font-size:14px;font-weight:700;padding:12px 30px;text-decoration:none">
+                                            {btn_text} &rarr;
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 """
 
 
-def build_edition_blocks(articles, lang, t):
+def build_edition_blocks(articles, lang, t, custom_images=None):
     """Compiles all article sections with cycling variations."""
     btn_text = "Lees Meer" if lang == 'nl' else "Read More"
     variations = ['stacked', 'split', 'highlight']
 
     html_out = ""
     for i, a in enumerate(articles):
-        enriched = enrich_article(a, lang)
+        custom_img = custom_images[i] if (custom_images and i < len(custom_images)) else None
+        enriched = enrich_article(a, lang, custom_image_url=custom_img)
         var = variations[i % len(variations)]
         html_out += render_article_variation(enriched, var, btn_text, t, article_id=f"{lang}_{i+1}")
     return html_out
 
 
-def generate_newsletter(template_path, docx_path, output_path, template_id='executive-dark', greeting_style='none'):
+def generate_newsletter(template_path, docx_path, output_path, template_id='executive-dark', greeting_style='none', custom_images=None, hero_image_url=None):
     """Main execution pipeline."""
     raw_articles = parse_docx(docx_path)
     t = TEMPLATES.get(template_id, TEMPLATES['executive-dark'])
@@ -702,9 +729,15 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
     html = re.sub(r'<td class="preview-bar".*?<\/td>', jump_bar_inner.strip(), html, flags=re.DOTALL)
 
     # ── Apply theme to hero section ──
+    hero_bg_url = hero_image_url if (hero_image_url and hero_image_url.strip()) else 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80'
     html = re.sub(
         r"background-color:#121A2F;background-image:url\('https://images\.unsplash\.com[^']*'\);background-size:cover;background-position:center;padding:70px 40px",
-        f"background-color:{t['hero_bg']};background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;padding:70px 40px",
+        f"background-color:{t['hero_bg']};background-image:url('{hero_bg_url}');background-size:cover;background-position:center;padding:70px 40px",
+        html, count=1
+    )
+    html = re.sub(
+        r'<v:fill type="frame" src="https://images\.unsplash\.com[^"]+" color="#121A2F" />',
+        f'<v:fill type="frame" src="{hero_bg_url}" color="{t["hero_bg"]}" />',
         html, count=1
     )
     html = re.sub(
@@ -729,9 +762,9 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
 
     # ── Intro section orange divider ──
     html = re.sub(
-        r"border-top:3px solid #FF7A00",
-        f"border-top:3px solid {t['accent']}",
-        html, count=1
+        r'border-top:3px solid #FF7A00;width:50px;margin:0 0 22px',
+        f"border-top:3px solid {t['accent']};width:50px;margin:0 0 22px",
+        html
     )
     html = re.sub(
         r"color:#FF7A00;font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:10px",
@@ -769,7 +802,7 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
         html = html.replace('<!-- [NL GREETING PLACEHOLDER] -->', nl_greeting_html.lstrip())
 
     # ── Build NL articles ──
-    nl_articles_html = build_edition_blocks(raw_articles, lang='nl', t=t)
+    nl_articles_html = build_edition_blocks(raw_articles, lang='nl', t=t, custom_images=custom_images)
 
     # ── Build EN transition anchor + hero + EN personal greeting ──
     en_greeting_span = ""
@@ -818,7 +851,7 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
                         </td>
                     </tr>
 """
-    en_articles_html = build_edition_blocks(raw_articles, lang='en', t=t)
+    en_articles_html = build_edition_blocks(raw_articles, lang='en', t=t, custom_images=custom_images)
 
     # ── Footer ──
     footer_html = f"""
