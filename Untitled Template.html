@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="x-apple-disable-message-reformatting">
     <title>LodgeGate &amp; RezXS Newsletter</title>
-    <!--[if mso]>
-<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
-<![endif]-->
     
 <style type="text/css">
 		body,table,td,a{
@@ -381,17 +378,23 @@
 
                     <!-- ===== HEADER ===== -->
                     <tr>
-                        <td style="background-color:#121A2F;padding:18px 30px">
+                        <td class="header-container" style="background-color:#121A2F;padding:18px 30px">
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tr>
                                     <td style="text-align:left;vertical-align:middle;width:50%">
                                         <!-- LodgeGate Logo -->
-                                        <img src="https://lodgegate.com/wp-content/uploads/2024/08/cropped-logo-LG-zonder-URL-2024.png" alt="LodgeGate PMS" height="36" style="display:inline-block;height:36px;width:auto">
+                                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="display:inline-block">
+                                            <tr>
+                                                <td class="header-logo-wrapper" style="background-color:transparent;padding:0;border-radius:8px">
+                                                    <img mc:edit="header_logo_lodgegate" src="https://lodgegate.com/wp-content/uploads/2024/08/cropped-logo-LG-zonder-URL-2024.png" alt="LodgeGate PMS" width="160" height="36" style="display:block;height:36px;width:160px;border:0">
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                     <td style="text-align:right;vertical-align:middle;width:50%">
                                         <!-- RezXS Logo text badge -->
-                                        <span style="font-family:'Inter',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;color:#ffffff;letter-spacing:-0.03em">Rez<span style="color:#FF7A00">XS</span></span>
-                                        <span style="display:inline-block;background:#FF7A00;color:#fff;font-family:Arial,sans-serif;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;margin-left:6px;letter-spacing:0.06em;text-transform:uppercase;vertical-align:middle">WEB</span>
+                                        <span class="rez-logo-text" style="font-family:'Inter',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;color:#ffffff;letter-spacing:-0.03em">Rez<span class="xs-logo-text" style="color:#FF7A00">XS</span></span>
+                                        <span class="web-logo-badge" style="display:inline-block;background:#FF7A00;color:#ffffff;font-family:Arial,sans-serif;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;margin-left:6px;letter-spacing:0.06em;text-transform:uppercase;vertical-align:middle">WEB</span>
                                     </td>
                                 </tr>
                             </table>
@@ -400,7 +403,7 @@
 
                     <!-- ===== HERO SECTION ===== -->
                     <tr>
-                        <td style="background-color:#121A2F;background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;padding:70px 40px;text-align:center">
+                        <td mc:edit="hero_section_bg" style="background-color:#121A2F;background-image:url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80');background-size:cover;background-position:center;padding:70px 40px;text-align:center">
                             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tr>
                                     <td align="center" style="background:rgba(18,26,47,0.82);padding:60px 30px;border-radius:8px">
@@ -447,24 +450,17 @@
                                 <tr>
                                     <td>
                                         <hr style="border:none;border-top:3px solid #FF7A00;width:50px;margin:0 0 22px">
-                                        <span style="color:#FF7A00;font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;display:block;margin-bottom:10px">
-                                            Dear *|FNAME|* / Beste *|FNAME|*
-                                        </span>
+                                        <!-- [NL GREETING PLACEHOLDER] -->
                                         <h2 style="color:#121A2F;font-family:'Inter',Arial,sans-serif;font-size:26px;font-weight:800;line-height:1.25;margin:0 0 16px;letter-spacing:-0.02em">
                                             [Intro Section Heading EN]
                                         </h2>
-                                        <p style="color:#444;font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0 0 12px">
+                                        <p style="color:#444;font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0 0 22px">
                                             [2–3 sentence seasonal intro paragraph in English. Mention the season,
                                             what's new, and why it matters for their hotel. Keep warm and professional.]
                                         </p>
-                                        <p style="color:#888;font-family:Arial,sans-serif;font-size:13px;line-height:1.7;margin:0 0 22px;font-style:italic;border-left:3px solid #FF7A00;padding-left:14px">
-                                            [2–3 zin seizoensintro in het Nederlands. Vermeld het seizoen, wat er nieuw
-                                            is en waarom dit relevant is voor hun hotel. Houd het warm en
-                                            professioneel.]
-                                        </p>
                                         <p style="color:#444;font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0">
-                                            Warm regards / Met vriendelijke groet,<br>
-                                            <strong style="color:#121A2F">The LodgeGate &amp; RezXS Team</strong>
+                                            Met vriendelijke groet,<br>
+                                            <strong style="color:#121A2F">Het LodgeGate &amp; RezXS Team</strong>
                                         </p>
                                     </td>
                                 </tr>

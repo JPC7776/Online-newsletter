@@ -26,6 +26,12 @@ TEMPLATES = {
         'name': 'Executive Dark',
         'header_bg': '#121A2F',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#FF7A00',
+        'badge_bg': '#FF7A00',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#0056B3',
         'hero_bg': '#121A2F',
         'hero_overlay': 'rgba(18,26,47,0.82)',
@@ -55,6 +61,12 @@ TEMPLATES = {
         'name': 'Sunrise Warm',
         'header_bg': '#FF7A00',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#121A2F',
+        'badge_bg': '#121A2F',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#E86E00',
         'hero_bg': '#FF7A00',
         'hero_overlay': 'rgba(255,122,0,0.85)',
@@ -84,6 +96,12 @@ TEMPLATES = {
         'name': 'Ocean Blue',
         'header_bg': '#0056B3',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#FF7A00',
+        'badge_bg': '#FF7A00',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#003D80',
         'hero_bg': '#0056B3',
         'hero_overlay': 'rgba(0,86,179,0.85)',
@@ -113,6 +131,12 @@ TEMPLATES = {
         'name': 'Clean Minimal',
         'header_bg': '#ffffff',
         'header_text': '#121A2F',
+        'rez_color': '#121A2F',
+        'xs_color': '#FF7A00',
+        'badge_bg': '#FF7A00',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': 'transparent',
+        'logo_wrapper_padding': '0',
         'preview_bar_bg': '#FF7A00',
         'hero_bg': '#ffffff',
         'hero_overlay': 'rgba(255,255,255,0.92)',
@@ -142,6 +166,12 @@ TEMPLATES = {
         'name': 'Midnight Luxe',
         'header_bg': '#0D0D1A',
         'header_text': '#C9A84C',
+        'rez_color': '#E8DCC8',
+        'xs_color': '#C9A84C',
+        'badge_bg': '#C9A84C',
+        'badge_text': '#0D0D1A',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#1A1A3E',
         'hero_bg': '#0D0D1A',
         'hero_overlay': 'rgba(13,13,26,0.88)',
@@ -171,6 +201,12 @@ TEMPLATES = {
         'name': 'Fresh Spring',
         'header_bg': '#10B981',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#022C22',
+        'badge_bg': '#022C22',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#059669',
         'hero_bg': '#10B981',
         'hero_overlay': 'rgba(16,185,129,0.85)',
@@ -200,6 +236,12 @@ TEMPLATES = {
         'name': 'Bold Magazine',
         'header_bg': '#E63E2A',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#450A0A',
+        'badge_bg': '#ffffff',
+        'badge_text': '#E63E2A',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#B91C1C',
         'hero_bg': '#E63E2A',
         'hero_overlay': 'rgba(230,62,42,0.88)',
@@ -229,6 +271,12 @@ TEMPLATES = {
         'name': 'Slate Pro',
         'header_bg': '#374151',
         'header_text': '#ffffff',
+        'rez_color': '#ffffff',
+        'xs_color': '#FF7A00',
+        'badge_bg': '#FF7A00',
+        'badge_text': '#ffffff',
+        'logo_wrapper_bg': '#ffffff',
+        'logo_wrapper_padding': '5px 12px',
         'preview_bar_bg': '#1F2937',
         'hero_bg': '#374151',
         'hero_overlay': 'rgba(55,65,81,0.85)',
@@ -291,10 +339,10 @@ GREETINGS = {
     },
     'bilingual': {
         'name': 'Bilingual',
-        'nl': 'Beste *|FNAME|* / Dear *|FNAME|*,',
-        'en': 'Dear *|FNAME|* / Beste *|FNAME|*,',
-        'nl_fallback': 'Beste relatie / Dear partner,',
-        'en_fallback': 'Dear partner / Beste relatie,',
+        'nl': 'Beste *|FNAME|*,',
+        'en': 'Dear *|FNAME|*,',
+        'nl_fallback': 'Beste relatie,',
+        'en_fallback': 'Dear partner,',
     },
     'none': {
         'name': 'No Greeting',
@@ -304,6 +352,77 @@ GREETINGS = {
         'en_fallback': '',
     },
 }
+
+PARAGRAPH_TRANSLATIONS = {
+    "Veiligheid": "Security & Privacy",
+    "RMS": "Revenue Optimization",
+    "LodgeGate WEB": "Direct Bookings & Web Solutions",
+    "Professionele weboplossingen met LodgeGate": "Professional Web Solutions with LodgeGate",
+    "Een website die past bij uw accommodatie": "A Website That Fits Your Accommodation",
+    "Meer directe boekingen met een IBE": "More Direct Bookings with an IBE",
+    "Flexibel inzetbaar": "Highly Flexible & Adaptable",
+    "Professionele weboplossingen met LodgeGate WEB": "Professional Web Solutions with LodgeGate WEB",
+
+    "In een tijd waarin datalekken en cyberaanvallen steeds vaker voorkomen, is de beveiliging van gegevens belangrijker dan ooit. Organisaties verwerken dagelijks gevoelige informatie van gasten, medewerkers en relaties. Het beschermen van deze gegevens is niet alleen essentieel voor de continuïteit van de organisatie, maar ook voor het behoud van vertrouwen en het voldoen aan privacywetgeving.":
+        "In an era where data breaches and cyber attacks are increasingly common, data security is more important than ever. Organizations process sensitive information from guests, employees, and partners on a daily basis. Protecting this data is not only essential for business continuity, but also for maintaining trust and complying with privacy regulations.",
+    "LodgeGate biedt daarom uitgebreide beveiligingsmogelijkheden om ongeautoriseerde toegang tot gegevens te voorkomen. Een sterke basis begint bij het gebruik van veilige wachtwoorden. Door wachtwoordbeleid af te dwingen en gebruikers bewust te maken van het belang van sterke, unieke wachtwoorden, wordt het risico op misbruik aanzienlijk verkleind.":
+        "LodgeGate therefore offers comprehensive security features to prevent unauthorized data access. A strong foundation begins with using secure passwords. By enforcing strict password policies and making users aware of the importance of strong, unique passwords, the risk of misuse is significantly reduced.",
+    "Daarnaast ondersteunt LodgeGate IP-adresblokkering, waarmee toegang kan worden beperkt tot vooraf goedgekeurde locaties of netwerken. Dit zorgt ervoor dat onbevoegden, zelfs wanneer zij over inloggegevens beschikken, geen toegang krijgen vanuit onbekende of verdachte locaties.":
+        "Additionally, LodgeGate supports IP address restriction and blocking, allowing access to be limited to pre-approved locations or trusted networks. This ensures that unauthorized individuals cannot gain access from unknown or suspicious locations, even if they happen to possess valid login credentials.",
+    "Voor een extra beveiligingslaag biedt LodgeGate ook tweefactorauthenticatie (2FA). Hierbij is naast een wachtwoord een tweede verificatiestap vereist, zoals een code via een authenticator-app. Hierdoor wordt het voor kwaadwillenden aanzienlijk moeilijker om toegang te verkrijgen, zelfs wanneer een wachtwoord onverhoopt is buitgemaakt.":
+        "For an extra layer of security, LodgeGate also provides Two-Factor Authentication (2FA). This requires a second verification step alongside the password, such as a code generated via an authenticator app. This makes it significantly more difficult for malicious actors to gain access, even in the event of a compromised password.",
+    "Deze beveiligingsmaatregelen kunnen op verschillende niveaus binnen LodgeGate worden toegepast, zodat organisaties de bescherming kunnen afstemmen op hun eigen beveiligingsbeleid en risicoanalyse. Door sterke wachtwoorden, IP-adresbeperkingen en 2FA te combineren, ontstaat een robuuste beveiligingsstrategie die helpt om gevoelige gegevens optimaal te beschermen.":
+        "These security measures can be applied at various levels within LodgeGate, enabling organizations to tailor protection to their specific security policies and risk assessments. Combining strong passwords, IP address restrictions, and 2FA creates a robust security strategy that helps safeguard sensitive data optimally.",
+    "Alle genoemde beveiligingsmaatregelen zijn standaard beschikbaar binnen LodgeGate en ondersteunen organisaties bij het creëren van een veilige en betrouwbare digitale omgeving voor zowel medewerkers als gasten.":
+        "All of these security features are available as standard within LodgeGate, empowering organizations to create a safe and reliable digital environment for both employees and guests.",
+
+    "In een dynamische hotelmarkt is het handmatig beheren van kamerprijzen steeds minder effectief. Vraag, aanbod, concurrentie, seizoensinvloeden en lokale evenementen kunnen dagelijks invloed hebben op de optimale kamerprijs. Een Revenue Management System (RMS) helpt hotels om hier slim op in te spelen door tarieven automatisch te analyseren, bij te werken en te optimaliseren.":
+        "In today's dynamic hotel market, managing room rates manually is becoming increasingly ineffective. Supply and demand, competition, seasonal trends, and local events can influence the optimal room rate on a daily basis. A Revenue Management System (RMS) helps hotels respond intelligently by automatically analyzing, updating, and optimizing pricing.",
+    "Door gebruik te maken van een RMS worden kamerprijzen continu afgestemd op actuele marktomstandigheden. Dit zorgt ervoor dat tarieven niet alleen concurrerend blijven, maar ook bijdragen aan een maximale omzet en bezettingsgraad. Automatische prijsaanpassingen verminderen daarnaast de tijd die medewerkers besteden aan handmatige controles en prijswijzigingen, waardoor er meer ruimte ontstaat voor gastgericht werken.":
+        "By utilizing an RMS, room rates are continuously adjusted to current market conditions. This ensures that rates remain competitive while driving maximum revenue and occupancy. Automated pricing adjustments also reduce the time staff spend on manual checks and rate changes, freeing up valuable time for guest-focused hospitality.",
+    "Binnen onze oplossingen werken wij met zowel RevControl als RoomPriceGenie. Beide systemen bieden krachtige functionaliteiten voor geautomatiseerd revenue management, maar zijn gericht op verschillende typen accommodaties en bedrijfsbehoeften. Hierdoor kunnen wij voor vrijwel iedere situatie een passende oplossing aanbieden.":
+        "Within our solutions ecosystem, we partner with both RevControl and RoomPriceGenie. Both systems offer powerful functionality for automated revenue management, while catering to different property types and business requirements. This allows us to provide a tailored solution for virtually any operational setting.",
+    "Met RevControl profiteren hotels van uitgebreide analyses, forecasting en geavanceerde prijsstrategieën. RoomPriceGenie onderscheidt zich door zijn gebruiksvriendelijke aanpak en snelle implementatie, waardoor ook kleinere hotels en onafhankelijke accommodaties eenvoudig kunnen profiteren van professionele prijsoptimalisatie.":
+        "With RevControl, hotels benefit from comprehensive analytics, forecasting, and advanced pricing strategies. RoomPriceGenie stands out for its user-friendly approach and rapid implementation, making it effortless for smaller hotels and independent properties to leverage professional rate optimization.",
+    "Door de integratie van deze RMS-oplossingen met LodgeGate worden prijswijzigingen automatisch verwerkt, wat zorgt voor een efficiënte en betrouwbare workflow. Zo beschikken accommodaties altijd over actuele tarieven en kunnen zij sneller inspelen op veranderingen in de markt.":
+        "Through the seamless integration of these RMS solutions with LodgeGate, rate adjustments are processed automatically, ensuring an efficient and reliable workflow. Properties always operate with live, accurate rates and can adapt rapidly to market shifts.",
+    "Of het nu gaat om een kleinschalig hotel, een hotelgroep of een recreatieaccommodatie, met RevControl en RoomPriceGenie bieden wij een oplossing die aansluit bij de omvang, doelstellingen en commerciële strategie van uw organisatie. Hierdoor haalt u het maximale rendement uit uw beschikbare kamers, zonder dat dit leidt tot extra administratieve lasten.":
+        "Whether running a boutique hotel, a multi-property hotel group, or a recreational resort, RevControl and RoomPriceGenie provide solutions aligned with your property size, goals, and commercial strategy. This maximizes the return on your available rooms without adding administrative overhead.",
+
+    "Een sterke online aanwezigheid is tegenwoordig onmisbaar voor iedere accommodatie. De website is vaak het eerste contactmoment met potentiële gasten en speelt een belangrijke rol in het genereren van directe boekingen. Met de weboplossingen van LodgeGate bieden wij zowel volledig gepersonaliseerde websites als krachtige Internet Booking Engines (IBE), afgestemd op de wensen en doelstellingen van uw organisatie.":
+        "A strong online presence is indispensable for any hospitality accommodation today. Your website is often the very first touchpoint with potential guests and plays a vital role in driving direct bookings. With LodgeGate WEB solutions, we offer both fully tailored websites and powerful Internet Booking Engines (IBE), perfectly designed to match your property's goals.",
+    "Met een gepersonaliseerde LodgeGate-website beschikt u over een professionele online omgeving die volledig aansluit bij uw huisstijl, doelgroep en uitstraling. De website wordt ontworpen met aandacht voor gebruiksvriendelijkheid, snelheid en optimale weergave op desktop, tablet en smartphone. Hierdoor kunnen bezoekers eenvoudig informatie vinden, beschikbaarheid bekijken en direct een reservering maken.":
+        "With a custom LodgeGate website, you gain a professional digital environment that aligns seamlessly with your brand identity, target audience, and aesthetic appeal. The website is engineered with a focus on user-friendliness, lightning-fast loading speeds, and optimal responsiveness across desktop, tablet, and smartphone screens. Visitors can easily access details, check real-time availability, and book directly.",
+    "Naast een aantrekkelijke presentatie van kamers, faciliteiten en arrangementen, zorgen wij ervoor dat de website technisch en commercieel optimaal presteert. Dit draagt bij aan een betere online vindbaarheid en een hogere conversie van bezoekers naar gasten.":
+        "Alongside an engaging showcase of your rooms, facilities, and packages, we ensure that your website performs at the highest technical and commercial standards. This boosts online search engine visibility (SEO) and maximizes conversion from website visitors to paying guests.",
+    "Een Internet Booking Engine (IBE) maakt het mogelijk om gasten rechtstreeks via uw eigen website te laten reserveren. Hiermee vermindert u de afhankelijkheid van externe boekingsplatformen en bespaart u op commissiekosten. Gasten kunnen eenvoudig beschikbaarheid controleren, tarieven bekijken en direct hun verblijf boeken in een veilige online omgeving.":
+        "An Internet Booking Engine (IBE) empowers guests to book directly through your own website. This reduces your dependence on external Online Travel Agencies (OTAs) and saves substantial commission fees. Guests can effortlessly verify availability, view live rates, and book their stay securely.",
+    "De IBE van LodgeGate is volledig geïntegreerd met het reserveringssysteem, waardoor beschikbaarheid, tarieven en reserveringen realtime worden verwerkt. Dit voorkomt dubbele boekingen en zorgt ervoor dat gasten altijd beschikken over actuele informatie.":
+        "The LodgeGate IBE is fully integrated with your Property Management System, processing availability, pricing, and reservations in real time. This eliminates overbookings and guarantees that guests always see live, accurate availability.",
+    "Of u nu kiest voor een complete, gepersonaliseerde website inclusief geïntegreerde boekingsmodule, of uitsluitend gebruik wilt maken van een IBE op een bestaande website, LodgeGate biedt voor iedere situatie een passende oplossing. Dankzij de flexibele mogelijkheden kunnen wij een online boekingservaring creëren die aansluit bij de behoeften van zowel de accommodatie als de gast.":
+        "Whether you opt for an all-in-one custom website with an embedded booking module, or simply wish to integrate our seamless IBE into your existing website, LodgeGate offers the ideal solution for every scenario. Our flexible architecture allows us to craft a booking journey tailored to both property requirements and guest preferences.",
+    "Met de webproducten van LodgeGate combineert u een professionele online presentatie met een gebruiksvriendelijk boekingsproces, waardoor u meer directe reserveringen genereert en de controle over uw online verkoopkanalen behoudt.":
+        "With LodgeGate WEB products, you combine a polished digital presentation with an intuitive booking flow—driving higher direct booking volumes and putting you firmly in control of your distribution channels."
+}
+
+
+def translate_paragraphs_to_en(paragraphs_nl):
+    """Translates a list of Dutch paragraphs to full English without dropping text."""
+    translated = []
+    for p in paragraphs_nl:
+        p_clean = p.strip()
+        if p_clean in PARAGRAPH_TRANSLATIONS:
+            translated.append(PARAGRAPH_TRANSLATIONS[p_clean])
+        else:
+            matched = False
+            for nl_key, en_val in PARAGRAPH_TRANSLATIONS.items():
+                if nl_key in p_clean or p_clean in nl_key:
+                    translated.append(en_val)
+                    matched = True
+                    break
+            if not matched:
+                translated.append(p_clean)
+    return translated
 
 
 def parse_docx(docx_path):
@@ -329,10 +448,10 @@ def parse_docx(docx_path):
         if p.lower() in ['newsletter lodgegate', 'nieuwsbrief lodgegate']:
             continue
 
-        is_heading = (len(p) < 40 and not p.endswith('.') and not p.endswith(',')) or \
-                     p.lower() in ['veiligheid', 'rms', 'lodgegate web']
+        is_known_heading = p.strip().lower() in ['veiligheid', 'rms', 'lodgegate web', 'security', 'revenue optimization', 'direct bookings']
+        is_generic_heading = (p.isupper() and len(p) < 35 and not p.endswith('.') and not p.endswith(',') and len(p.split()) <= 4)
 
-        if is_heading:
+        if is_known_heading or is_generic_heading:
             if current_article:
                 articles.append(current_article)
             current_article = {'title_nl': p, 'paragraphs_nl': []}
@@ -366,7 +485,8 @@ def get_unique_image_pool():
 def enrich_article(article, lang='nl'):
     """Enriches an article for either Dutch or English edition."""
     title_nl = article['title_nl']
-    text_nl = "\n\n".join(article['paragraphs_nl'])
+    paragraphs_list = article['paragraphs_nl'] if lang == 'nl' else translate_paragraphs_to_en(article['paragraphs_nl'])
+    text_full = "\n\n".join(paragraphs_list)
     pool = get_unique_image_pool()[lang]
 
     curated_map = {
@@ -374,21 +494,18 @@ def enrich_article(article, lang='nl'):
             'category_nl': 'BEVEILIGING & PRIVACY', 'category_en': 'SECURITY & PRIVACY',
             'title_nl': 'Optimaliseer uw gegevensbeveiliging met LodgeGate 2FA',
             'title_en': 'Enhanced Data Security & 2FA in LodgeGate',
-            'summary_en': 'In an era of rising cyber risks, protecting guest and hotel data is paramount. LodgeGate provides robust security measures including Two-Factor Authentication (2FA), IP address whitelist blocking, and strict password enforcement policies to safeguard your hotel operations.',
             'link': 'https://lodgegate.com',
         },
         'rms': {
             'category_nl': 'TARIEFOPTIMALISATIE', 'category_en': 'REVENUE OPTIMIZATION',
             'title_nl': 'Haal het maximale uit uw kamerprijzen met RevControl & RoomPriceGenie',
             'title_en': 'Automated Price Optimization with RMS Integrations',
-            'summary_en': 'Manual rate adjustments can no longer keep up with dynamic market demand. LodgeGate seamlessly integrates with leading Revenue Management Systems like RevControl and RoomPriceGenie to maximize your occupancy and RevPAR without administrative overhead.',
             'link': 'https://lodgegate.com',
         },
         'lodgegate web': {
             'category_nl': 'DIRECTE BOEKINGEN & WEB', 'category_en': 'DIRECT BOOKINGS & WEB',
             'title_nl': 'Professionele weboplossingen en IBE met LodgeGate WEB',
             'title_en': 'Boost Direct Bookings with RezXS Web Solutions',
-            'summary_en': 'Your website is the digital front door to your property. With LodgeGate WEB solutions by RezXS, we deliver fully branded, lightning-fast hotel websites and integrated Internet Booking Engines (IBE). Reduce OTA commission dependence and convert visitors into direct bookings.',
             'link': 'https://rezxs.com',
         },
     }
@@ -402,26 +519,39 @@ def enrich_article(article, lang='nl'):
         return {
             'category': info[f'category_{lang}'] if f'category_{lang}' in info else info.get('category_nl', 'UPDATE'),
             'title': info['title_nl'] if lang == 'nl' else info['title_en'],
-            'text': text_nl if lang == 'nl' else info['summary_en'],
+            'text': text_full,
+            'paragraphs': paragraphs_list,
             'image': image,
             'link': info['link'],
         }
 
-    is_web = any(k in key or k in text_nl.lower() for k in ['web', 'ibe', 'rezxs', 'website', 'boeken'])
+    is_web = any(k in key or k in text_full.lower() for k in ['web', 'ibe', 'rezxs', 'website', 'boeken'])
     link = 'https://rezxs.com' if is_web else 'https://lodgegate.com'
+
+    title_translated = PARAGRAPH_TRANSLATIONS.get(title_nl.strip(), title_nl) if lang == 'en' else title_nl
 
     return {
         'category': 'UPDATE',
-        'title': title_nl,
-        'text': text_nl if lang == 'nl' else (article['paragraphs_nl'][0] if article['paragraphs_nl'] else title_nl),
+        'title': title_translated,
+        'text': text_full,
+        'paragraphs': paragraphs_list,
         'image': image,
         'link': link,
     }
 
 
-def render_article_variation(enriched, variation, btn_text, t):
+def render_article_variation(enriched, variation, btn_text, t, article_id='art'):
     """Renders one of 3 distinct display layouts using theme colors."""
-    formatted_text = enriched['text'].replace('\n\n', '<br><br>')
+    formatted_paragraphs = []
+    for p in enriched.get('paragraphs', [enriched['text']]):
+        p_clean = p.strip()
+        is_subheading = len(p_clean) < 65 and not p_clean[-1] in ['.', ',', '!', '?', ';', ':']
+        if is_subheading:
+            formatted_paragraphs.append(f'<strong style="color:{t["heading_color"]};font-size:16px">{p_clean}</strong>')
+        else:
+            formatted_paragraphs.append(p_clean)
+    formatted_text = "<br><br>".join(formatted_paragraphs)
+
     bg_a = t['section_bg_a']
     bg_b = t['section_bg_b']
 
@@ -432,7 +562,7 @@ def render_article_variation(enriched, variation, btn_text, t):
                     <tr>
                         <td style="background-color:{bg};padding:45px 40px">
                             <a href="{enriched['link']}" target="_blank">
-                                <img src="{enriched['image']}" alt="{enriched['title']}" width="520" style="width:100%;max-width:520px;border-radius:12px;margin-bottom:22px;display:block;object-fit:cover;max-height:260px" role="presentation">
+                                <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" width="520" style="width:100%;max-width:520px;border-radius:12px;margin-bottom:22px;display:block;object-fit:cover;max-height:260px" role="presentation">
                             </a>
                             <span style="color:{t['accent']};font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 8px;display:block">
                                 ✦ {enriched['category']}
@@ -459,7 +589,7 @@ def render_article_variation(enriched, variation, btn_text, t):
                                 <tr>
                                     <td style="width:45%;vertical-align:top;padding:10px">
                                         <a href="{enriched['link']}" target="_blank">
-                                            <img src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;object-fit:cover;height:240px;display:block" role="presentation">
+                                            <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;object-fit:cover;height:240px;display:block" role="presentation">
                                         </a>
                                     </td>
                                     <td style="width:55%;vertical-align:top;padding:10px">
@@ -470,7 +600,7 @@ def render_article_variation(enriched, variation, btn_text, t):
                                             {enriched['title']}
                                         </h3>
                                         <p style="color:{t['body_text_alt']};font-family:Arial,sans-serif;font-size:14px;line-height:1.65;margin:0 0 18px">
-                                            {formatted_text[:280]}...
+                                            {formatted_text}
                                         </p>
                                         <a href="{enriched['link']}" target="_blank" style="color:{t['accent']};font-family:Arial,sans-serif;font-weight:700;text-decoration:none;font-size:14px">
                                             {btn_text} &rarr;
@@ -495,7 +625,7 @@ def render_article_variation(enriched, variation, btn_text, t):
                                     {enriched['title']}
                                 </h2>
                                 <a href="{enriched['link']}" target="_blank">
-                                    <img src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;margin-bottom:18px;max-height:220px;object-fit:cover;display:block" role="presentation">
+                                    <img mc:edit="photo_{article_id}" src="{enriched['image']}" alt="{enriched['title']}" style="width:100%;border-radius:10px;margin-bottom:18px;max-height:220px;object-fit:cover;display:block" role="presentation">
                                 </a>
                                 <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.7;margin:0 0 22px">
                                     {formatted_text}
@@ -518,7 +648,7 @@ def build_edition_blocks(articles, lang, t):
     for i, a in enumerate(articles):
         enriched = enrich_article(a, lang)
         var = variations[i % len(variations)]
-        html_out += render_article_variation(enriched, var, btn_text, t)
+        html_out += render_article_variation(enriched, var, btn_text, t, article_id=f"{lang}_{i+1}")
     return html_out
 
 
@@ -539,6 +669,26 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
         r'background-color:#121A2F;padding:18px 30px',
         f"background-color:{t['header_bg']};padding:18px 30px",
         html, count=1
+    )
+    html = re.sub(
+        r'class="header-logo-wrapper"[^>]*>',
+        f'class="header-logo-wrapper" style="background-color:{t["logo_wrapper_bg"]};padding:{t["logo_wrapper_padding"]};border-radius:8px">',
+        html
+    )
+    html = re.sub(
+        r'class="rez-logo-text"[^>]*>',
+        f'class="rez-logo-text" style="font-family:\'Inter\',Arial,Helvetica,sans-serif;font-size:18px;font-weight:800;color:{t["rez_color"]};letter-spacing:-0.03em">',
+        html
+    )
+    html = re.sub(
+        r'class="xs-logo-text"[^>]*>',
+        f'class="xs-logo-text" style="color:{t["xs_color"]}">',
+        html
+    )
+    html = re.sub(
+        r'class="web-logo-badge"[^>]*>',
+        f'class="web-logo-badge" style="display:inline-block;background:{t["badge_bg"]};color:{t["badge_text"]};font-family:Arial,sans-serif;font-size:9px;font-weight:700;padding:2px 8px;border-radius:8px;margin-left:6px;letter-spacing:0.06em;text-transform:uppercase;vertical-align:middle">',
+        html
     )
 
     # ── Preview Bar with jump link ──
@@ -604,29 +754,35 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
                          "Met het drukke zomerseizoen voor de deur staan operationele rust en gegevensbeveiliging centraal. Deze maand delen wij belangrijke updates rondom LodgeGate cloudbeveiliging, geautomatiseerde revenue-integraties en conversie-gerichte weboplossingen van RezXS.")
     html = html.replace("[2–3 zin seizoensintro in het Nederlands. Vermeld het seizoen, wat er nieuw\n                                            is en waarom dit relevant is voor hun hotel. Houd het warm en\n                                            professioneel.]", "")
 
+    # ── Build NL personal greeting inside NL intro block ──
+    nl_greeting_html = ""
+    if g['nl']:
+        nl_greeting_html = f"""
+                                        <p style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:18px;font-weight:700;margin:0 0 14px">
+                                            *|IF:FNAME|*
+                                            {g['nl']}
+                                            *|ELSE:|*
+                                            {g['nl_fallback']}
+                                            *|END:IF|*
+                                        </p>"""
+    if '<!-- [NL GREETING PLACEHOLDER] -->' in html:
+        html = html.replace('<!-- [NL GREETING PLACEHOLDER] -->', nl_greeting_html.lstrip())
+
     # ── Build NL articles ──
     nl_articles_html = build_edition_blocks(raw_articles, lang='nl', t=t)
 
-    # ── Build NL personal greeting ──
-    nl_greeting_html = ""
-    if g['nl']:
-        # Mailchimp *|IF:FNAME|* conditional: show name if available, fallback otherwise
-        nl_greeting_html = f"""
-                    <!-- ===== PERSONAL GREETING (NL) ===== -->
-                    <tr>
-                        <td style="background-color:{t['section_bg_b']};padding:35px 40px 10px">
-                            <p style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:20px;font-weight:700;line-height:1.4;margin:0">
+    # ── Build EN transition anchor + hero + EN personal greeting ──
+    en_greeting_span = ""
+    if g['en']:
+        en_greeting_span = f"""
+                            <p style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:18px;font-weight:700;margin:0 0 14px">
                                 *|IF:FNAME|*
-                                {g['nl']}
+                                {g['en']}
                                 *|ELSE:|*
-                                {g['nl_fallback']}
+                                {g['en_fallback']}
                                 *|END:IF|*
-                            </p>
-                        </td>
-                    </tr>
-"""
+                            </p>"""
 
-    # ── Build EN transition anchor + hero ──
     en_section = f"""
                     <!-- ===== ENGLISH EDITION ANCHOR & HERO ===== -->
                     <tr>
@@ -647,28 +803,17 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
                     </tr>
                     <tr>
                         <td style="background:{t['section_bg_b']};padding:45px 40px">
+                            <hr style="border:none;border-top:3px solid {t['accent']};width:50px;margin:0 0 22px">
+                            {en_greeting_span}
                             <h2 style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:24px;font-weight:800;margin:0 0 12px">
                                 Ready for a High-Performing Summer Season
                             </h2>
-                            <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0">
+                            <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0 0 22px">
                                 As peak summer travel approaches, operational efficiency and data security are top priorities. This month, we share key advancements in LodgeGate cloud security, automated revenue integrations, and conversion-focused RezXS web solutions.
                             </p>
-                        </td>
-                    </tr>
-"""
-    # ── Build EN personal greeting ──
-    en_greeting_html = ""
-    if g['en']:
-        en_greeting_html = f"""
-                    <!-- ===== PERSONAL GREETING (EN) ===== -->
-                    <tr>
-                        <td style="background-color:{t['section_bg_b']};padding:35px 40px 10px">
-                            <p style="color:{t['heading_color']};font-family:'Inter',Arial,sans-serif;font-size:20px;font-weight:700;line-height:1.4;margin:0">
-                                *|IF:FNAME|*
-                                {g['en']}
-                                *|ELSE:|*
-                                {g['en_fallback']}
-                                *|END:IF|*
+                            <p style="color:{t['body_text']};font-family:Arial,sans-serif;font-size:15px;line-height:1.75;margin:0">
+                                Warm regards,<br>
+                                <strong style="color:{t['heading_color']}">The LodgeGate &amp; RezXS Team</strong>
                             </p>
                         </td>
                     </tr>
@@ -698,13 +843,13 @@ def generate_newsletter(template_path, docx_path, output_path, template_id='exec
                     </tr>
 """
 
-    replacement = "                    </tr>" + nl_greeting_html + nl_articles_html + en_section + en_greeting_html + en_articles_html + footer_html + "                </table></td></tr></table>"
+    replacement = "                    </tr>" + nl_articles_html + en_section + en_articles_html + footer_html + "                </table></td></tr></table>"
 
     if "                    </tr></table></td></tr></table>" in html:
         html = html.replace("                    </tr></table></td></tr></table>", replacement)
     else:
         html = html.replace("                </table>\n            </td>\n        </tr>\n    </table>",
-                             nl_greeting_html + nl_articles_html + en_section + en_greeting_html + en_articles_html + footer_html + "                </table>\n            </td>\n        </tr>\n    </table>")
+                             nl_articles_html + en_section + en_articles_html + footer_html + "                </table>\n            </td>\n        </tr>\n    </table>")
 
     # ── FINAL SANITATION ──
     html = re.sub(r'\[[A-Za-z0-9\s\/—\-\.\,\']*?\]', '', html)
