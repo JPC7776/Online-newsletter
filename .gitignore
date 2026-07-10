@@ -1,0 +1,19 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Mac OS
+.DS_Store
+
+# User Uploads & Generated temporary outputs
+uploads/*
+!uploads/.gitkeep
+Newsletter_Ready.html
+Newsletter_LodgeGate_2026_Ready.html
+*.docx
+
+# Environment variables
+.env
+.mcp.json
+

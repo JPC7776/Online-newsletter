@@ -1,349 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LodgeGate Newsletter Studio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Newsletter Studio - LodgeGate & RezXS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Plus+Jakarta+Sans:wght@300..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface": "#dde2f5",
+                        "tertiary": "#4edea3",
+                        "on-primary-container": "#ffffff",
+                        "outline": "#a78b7c",
+                        "surface-bright": "#333948",
+                        "surface-dim": "#0d1320",
+                        "on-background": "#dde2f5",
+                        "surface-container": "#1a1f2d",
+                        "surface-variant": "#2f3543",
+                        "primary-container": "#ff7a00",
+                        "on-surface-variant": "#8c96ab",
+                        "surface-container-highest": "#2f3543",
+                        "surface-container-lowest": "#080e1b",
+                        "tertiary-container": "#03b67e",
+                        "surface-container-low": "#161b29",
+                        "background": "#0d1320",
+                        "primary": "#ffb68b",
+                        "surface": "#0d1320",
+                        "secondary": "#acc7ff",
+                        "error": "#ffb4ab",
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --lg-navy: #121A2F;
-            --lg-navy-light: #1A2540;
-            --lg-navy-mid: #0D1320;
-            --lg-orange: #FF7A00;
-            --lg-orange-hover: #E86E00;
-            --lg-orange-glow: rgba(255, 122, 0, 0.15);
-            --lg-blue: #0056B3;
-            --lg-blue-light: #1A6FD1;
-            --lg-red: #E63E2A;
-            --surface-glass: rgba(18, 26, 47, 0.65);
-            --surface-card: rgba(26, 37, 64, 0.55);
-            --surface-card-hover: rgba(26, 37, 64, 0.85);
-            --text-primary: #F0F2F5;
-            --text-secondary: #8C96AB;
-            --text-muted: #5A6478;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-active: rgba(255, 122, 0, 0.5);
-            --radius-sm: 10px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 24px;
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.45);
-            --shadow-glow: 0 0 40px rgba(255, 122, 0, 0.12);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--lg-navy-mid);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ─── Animated background ─── */
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 10% 40%, rgba(255, 122, 0, 0.06), transparent),
-                radial-gradient(ellipse 60% 60% at 90% 20%, rgba(0, 86, 179, 0.08), transparent),
-                radial-gradient(ellipse 50% 40% at 50% 90%, rgba(230, 62, 42, 0.04), transparent);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ─── Top Navigation ─── */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(13, 19, 32, 0.85);
-            backdrop-filter: blur(20px) saturate(1.4);
-            -webkit-backdrop-filter: blur(20px) saturate(1.4);
-            border-bottom: 1px solid var(--border-subtle);
-            padding: 0 40px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .topbar-logo {
-            height: 32px;
-            width: auto;
-            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-        }
-
-        .topbar-divider {
-            width: 1px;
-            height: 28px;
-            background: var(--border-subtle);
-        }
-
-        .topbar-title {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--text-primary);
-        }
-
-        .topbar-title span {
-            color: var(--lg-orange);
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .topbar-badge {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--lg-orange);
-            background: var(--lg-orange-glow);
-            border: 1px solid rgba(255, 122, 0, 0.25);
-            padding: 5px 14px;
-            border-radius: 20px;
-        }
-
-        .topbar-version {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* ─── Main Layout ─── */
-        .main {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 48px 32px 80px;
-        }
-
-        /* ─── Hero Section ─── */
-        .hero {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--lg-orange);
-            margin-bottom: 20px;
-        }
-
-        .hero-eyebrow::before,
-        .hero-eyebrow::after {
-            content: '';
-            width: 28px;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--lg-orange));
-        }
-
-        .hero-eyebrow::after {
-            background: linear-gradient(90deg, var(--lg-orange), transparent);
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 900;
-            letter-spacing: -0.035em;
-            line-height: 1.15;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #ffffff 0%, #c8cdd6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-sub {
-            font-size: 17px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            max-width: 560px;
-            margin: 0 auto;
-        }
-
-        /* ─── Steps Indicator ─── */
-        .steps {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            margin-bottom: 48px;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            position: relative;
-        }
-
-        .step::after {
-            content: '';
-            position: absolute;
-            right: -20px;
-            width: 40px;
-            height: 1px;
-            background: var(--border-subtle);
-        }
-
-        .step:last-child::after { display: none; }
-
-        .step-num {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 800;
-            transition: all 0.3s;
-        }
-
-        .step.active .step-num {
-            background: var(--lg-orange);
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(255, 122, 0, 0.35);
-        }
-
-        .step.inactive .step-num {
-            background: rgba(255,255,255,0.06);
-            color: var(--text-muted);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .step.done .step-num {
-            background: #10B981;
-            color: #fff;
-        }
-
-        .step-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: color 0.3s;
-        }
-
-        .step.active .step-label { color: var(--text-primary); }
-        .step.inactive .step-label { color: var(--text-muted); }
-
-        /* ─── Section Containers ─── */
-        .section-card {
-            background: var(--surface-glass);
-            backdrop-filter: blur(24px) saturate(1.2);
-            -webkit-backdrop-filter: blur(24px) saturate(1.2);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-bottom: 32px;
-            box-shadow: var(--shadow-card);
-            transition: all 0.3s ease;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 28px;
-        }
-
-        .section-header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .section-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .section-icon.orange {
-            background: var(--lg-orange-glow);
-            border: 1px solid rgba(255,122,0,0.2);
-        }
-
-        .section-icon.blue {
-            background: rgba(0, 86, 179, 0.15);
-            border: 1px solid rgba(0,86,179,0.2);
-        }
-
-        .section-icon.green {
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16,185,129,0.2);
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .section-subtitle {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        /* ─── Template Grid ─── */
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .template-card {
-            position: relative;
-            background: var(--surface-card);
-            border: 2px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 0;
-            cursor: pointer;
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(18, 26, 47, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
         }
-
-        .template-card:hover {
-            border-color: rgba(255, 122, 0, 0.3);
-            background: var(--surface-card-hover);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.16);
         }
-
+        .glow-active {
+            box-shadow: 0 0 24px rgba(255, 122, 0, 0.25);
+            border-color: #ff7a00 !important;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff7a00 0%, #e86e00 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 122, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 8px 28px rgba(255, 122, 0, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .bg-radial-glow {
+            background: radial-gradient(circle at top right, rgba(255, 122, 0, 0.07), transparent 45%),
+                        radial-gradient(circle at bottom left, rgba(2, 87, 180, 0.07), transparent 45%),
+                        #0d1320;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 122, 0, 0.35); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 122, 0, 0.6); }
+        
         .template-card.selected {
-            border-color: var(--lg-orange);
-            box-shadow: var(--shadow-glow), 0 0 0 1px var(--lg-orange);
+            border-color: #ff7a00 !important;
+            box-shadow: 0 0 28px rgba(255, 122, 0, 0.28), 0 0 0 1px #ff7a00 !important;
+            background: rgba(26, 37, 64, 0.85);
         }
-
         .template-card.selected::after {
             content: '✓';
             position: absolute;
@@ -351,7 +101,7 @@
             right: 10px;
             width: 24px;
             height: 24px;
-            background: var(--lg-orange);
+            background: #ff7a00;
             color: #fff;
             border-radius: 50%;
             display: flex;
@@ -359,1320 +109,741 @@
             justify-content: center;
             font-size: 12px;
             font-weight: 800;
-            z-index: 5;
+            z-index: 15;
             box-shadow: 0 2px 8px rgba(255,122,0,0.4);
         }
-
-        .template-preview {
-            width: 100%;
-            height: 140px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .template-preview-inner {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-        }
-
-        /* Mini email previews for each template style */
-        .tp-header {
-            height: 18px;
-            display: flex;
-            align-items: center;
-            padding: 0 8px;
-            font-size: 5px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .tp-hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-        }
-
-        .tp-hero-title {
-            font-size: 7px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 3px;
-            line-height: 1.2;
-        }
-
-        .tp-hero-sub {
-            font-size: 4px;
-            opacity: 0.7;
-            text-align: center;
-        }
-
-        .tp-btn {
-            width: 36px;
-            height: 8px;
-            border-radius: 4px;
-            margin-top: 4px;
-        }
-
-        .tp-row {
-            display: flex;
-            gap: 4px;
-            padding: 4px 6px;
-        }
-
-        .tp-block {
-            border-radius: 3px;
-            flex: 1;
-            height: 20px;
-        }
-
-        .tp-line {
-            height: 3px;
-            border-radius: 1px;
-            margin: 2px 6px;
-        }
-
-        /* Template 1: Executive Dark */
-        .tp-exec-dark .tp-header { background: #121A2F; }
-        .tp-exec-dark .tp-hero { background: #121A2F; color: #fff; }
-        .tp-exec-dark .tp-btn { background: #FF7A00; }
-        .tp-exec-dark .tp-row { background: #fff; }
-        .tp-exec-dark .tp-block { background: #F0F2F5; }
-        .tp-exec-dark .tp-line { background: #E8E8E8; }
-
-        /* Template 2: Sunrise Warm */
-        .tp-sunrise .tp-header { background: #FF7A00; }
-        .tp-sunrise .tp-hero { background: linear-gradient(135deg, #FF7A00, #FF9F43); color: #fff; }
-        .tp-sunrise .tp-btn { background: #121A2F; }
-        .tp-sunrise .tp-row { background: #FFF8F0; }
-        .tp-sunrise .tp-block { background: #FFE8CC; }
-        .tp-sunrise .tp-line { background: #FFD4A3; }
-
-        /* Template 3: Ocean Blue */
-        .tp-ocean .tp-header { background: #0056B3; }
-        .tp-ocean .tp-hero { background: linear-gradient(135deg, #0056B3, #1A6FD1); color: #fff; }
-        .tp-ocean .tp-btn { background: #FF7A00; }
-        .tp-ocean .tp-row { background: #F0F7FF; }
-        .tp-ocean .tp-block { background: #D6E9FF; }
-        .tp-ocean .tp-line { background: #B8D8FF; }
-
-        /* Template 4: Clean Minimal */
-        .tp-minimal .tp-header { background: #ffffff; border-bottom: 2px solid #FF7A00; }
-        .tp-minimal .tp-header { color: #121A2F; }
-        .tp-minimal .tp-hero { background: #ffffff; color: #121A2F; }
-        .tp-minimal .tp-btn { background: #FF7A00; }
-        .tp-minimal .tp-row { background: #FAFAFA; }
-        .tp-minimal .tp-block { background: #EEEEEE; }
-        .tp-minimal .tp-line { background: #E0E0E0; }
-
-        /* Template 5: Midnight Luxe */
-        .tp-midnight .tp-header { background: #0D0D1A; }
-        .tp-midnight .tp-hero { background: linear-gradient(135deg, #0D0D1A, #1A1A3E); color: #fff; }
-        .tp-midnight .tp-btn { background: #C9A84C; }
-        .tp-midnight .tp-row { background: #14142B; }
-        .tp-midnight .tp-block { background: #1E1E3F; }
-        .tp-midnight .tp-line { background: #2A2A50; }
-
-        /* Template 6: Fresh Spring */
-        .tp-spring .tp-header { background: #10B981; }
-        .tp-spring .tp-hero { background: linear-gradient(135deg, #10B981, #34D399); color: #fff; }
-        .tp-spring .tp-btn { background: #121A2F; }
-        .tp-spring .tp-row { background: #F0FFF8; }
-        .tp-spring .tp-block { background: #D1FAE5; }
-        .tp-spring .tp-line { background: #A7F3D0; }
-
-        /* Template 7: Bold Magazine */
-        .tp-magazine .tp-header { background: #E63E2A; }
-        .tp-magazine .tp-hero { background: #E63E2A; color: #fff; }
-        .tp-magazine .tp-btn { background: #121A2F; }
-        .tp-magazine .tp-row { background: #fff; }
-        .tp-magazine .tp-block { background: #FEE2DE; }
-        .tp-magazine .tp-line { background: #FECACA; }
-
-        /* Template 8: Slate Pro */
-        .tp-slate .tp-header { background: #374151; }
-        .tp-slate .tp-hero { background: linear-gradient(135deg, #374151, #4B5563); color: #fff; }
-        .tp-slate .tp-btn { background: #FF7A00; }
-        .tp-slate .tp-row { background: #F9FAFB; }
-        .tp-slate .tp-block { background: #E5E7EB; }
-        .tp-slate .tp-line { background: #D1D5DB; }
-
-        .template-info {
-            padding: 14px 14px 16px;
-        }
-
-        .template-name {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 3px;
-        }
-
-        .template-desc {
-            font-size: 11px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .template-tags {
-            display: flex;
-            gap: 5px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-
-        .template-tag {
-            font-size: 9px;
+        
+        .greeting-btn.selected {
+            background: #ff7a00 !important;
+            color: #ffffff !important;
+            border-color: #ff7a00 !important;
             font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 6px;
-            background: rgba(255,255,255,0.06);
-            color: var(--text-muted);
-            border: 1px solid var(--border-subtle);
-        }
-
-        .template-tag.rec {
-            background: var(--lg-orange-glow);
-            color: var(--lg-orange);
-            border-color: rgba(255,122,0,0.2);
-        }
-
-        /* ─── Upload Zone ─── */
-        .upload-zone {
-            border: 2px dashed rgba(255, 122, 0, 0.3);
-            border-radius: var(--radius-lg);
-            padding: 56px 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(255, 122, 0, 0.02);
-            position: relative;
-        }
-
-        .upload-zone:hover,
-        .upload-zone.dragover {
-            border-color: var(--lg-orange);
-            background: rgba(255, 122, 0, 0.06);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .upload-icon-wrap {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            background: var(--lg-orange-glow);
-            border: 1px solid rgba(255,122,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 18px;
-            font-size: 28px;
-        }
-
-        .upload-title {
-            font-size: 17px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-
-        .upload-hint {
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .upload-formats {
-            margin-top: 14px;
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* ─── Selected File ─── */
-        .selected-file {
-            margin-top: 20px;
-            padding: 14px 20px;
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: var(--radius-sm);
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .selected-file .file-icon {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            color: #10B981;
-        }
-
-        .remove-btn {
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-subtle);
-            background: none;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .remove-btn:hover {
-            border-color: var(--lg-red);
-            color: var(--lg-red);
-        }
-
-        /* ─── Generate Button ─── */
-        .btn-generate {
-            background: linear-gradient(135deg, var(--lg-orange) 0%, #E86E00 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 50px;
-            padding: 18px 48px;
-            font-size: 16px;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 28px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 6px 24px rgba(255, 122, 0, 0.35);
-            display: none;
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.01em;
-        }
-
-        .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 32px rgba(255, 122, 0, 0.45);
-        }
-
-        .btn-generate:active {
-            transform: translateY(0);
-        }
-
-        /* ─── Spinner ─── */
-        .spinner-wrap {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            margin: 28px 0;
+            box-shadow: 0 2px 10px rgba(255, 122, 0, 0.3);
         }
 
         .spinner {
-            width: 44px;
-            height: 44px;
-            border: 4px solid rgba(255,255,255,0.08);
-            border-top: 4px solid var(--lg-orange);
-            border-radius: 50%;
-            animation: spin 0.9s linear infinite;
-        }
-
-        .spinner-text {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* ─── Result Section ─── */
-        .result-section {
-            display: none;
-        }
-
-        .success-banner {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 20px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: var(--radius-sm);
-            margin-bottom: 24px;
-        }
-
-        .success-icon {
             width: 36px;
             height: 36px;
-            background: #10B981;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #ff7a00;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
+            animation: spin 0.8s linear infinite;
         }
-
-        .success-text {
-            font-size: 15px;
-            font-weight: 700;
-            color: #10B981;
-        }
-
-        .success-sub {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        .result-actions {
-            display: flex;
-            gap: 14px;
-            margin-bottom: 28px;
-        }
-
-        .btn-action {
-            flex: 1;
-            padding: 16px 24px;
-            border-radius: var(--radius-md);
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .btn-copy {
-            background: #10B981;
-            color: white;
-            border: none;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
-        }
-
-        .btn-copy:hover { background: #059669; transform: translateY(-1px); }
-
-        .btn-dl {
-            background: transparent;
-            border: 2px solid var(--border-subtle);
-            color: white;
-        }
-
-        .btn-dl:hover { border-color: #fff; background: rgba(255,255,255,0.04); }
-
-        /* ─── Preview ─── */
-        .preview-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 10px;
-        }
-
-        .preview-box {
-            width: 100%;
-            height: 520px;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            background: #ffffff;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-
-        .preview-box iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* ─── Footer ─── */
-        .studio-footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .studio-footer a {
-            color: var(--lg-orange);
-            text-decoration: none;
-        }
-
-        /* ─── Responsive ─── */
-        @media (max-width: 900px) {
-            .template-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .greeting-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .main { padding: 32px 16px 60px; }
-            .section-card { padding: 28px; }
-            .hero h1 { font-size: 30px; }
-        }
-
-        @media (max-width: 520px) {
-            .template-grid {
-                grid-template-columns: 1fr;
-            }
-            .greeting-grid {
-                grid-template-columns: 1fr;
-            }
-            .topbar { padding: 0 16px; }
-            .steps { flex-direction: column; align-items: center; }
-            .step::after { display: none; }
-            .result-actions { flex-direction: column; }
-        }
-
-        /* ─── Transitions ─── */
-        .fade-in {
-            animation: fadeIn 0.4s ease;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* ─── Greeting Style Cards ─── */
-        .greeting-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-        }
-
-        .greeting-card {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            background: var(--surface-card);
-            border: 2px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 18px 16px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .greeting-card:hover {
-            border-color: rgba(139, 92, 246, 0.3);
-            background: var(--surface-card-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .greeting-card.selected {
-            border-color: #8B5CF6;
-            box-shadow: 0 0 40px rgba(139, 92, 246, 0.12), 0 0 0 1px #8B5CF6;
-        }
-
-        .greeting-card-icon {
-            font-size: 22px;
-            flex-shrink: 0;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(139, 92, 246, 0.1);
-            border-radius: 10px;
-        }
-
-        .greeting-card-body {
-            min-width: 0;
-        }
-
-        .greeting-card-name {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .greeting-card-preview {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            font-style: italic;
-        }
-
-        .greeting-card-preview .merge-tag {
-            color: #8B5CF6;
-            font-weight: 700;
-            font-style: normal;
-            background: rgba(139, 92, 246, 0.1);
-            padding: 1px 6px;
-            border-radius: 4px;
-        }
-
-        .greeting-card-fallback {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .greeting-info-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 18px;
-            padding: 14px 18px;
-            background: rgba(139, 92, 246, 0.06);
-            border: 1px solid rgba(139, 92, 246, 0.15);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .greeting-info-icon {
-            color: #8B5CF6;
-            font-weight: 700;
-        }
-
-        .greeting-info-bar code {
-            background: rgba(139, 92, 246, 0.15);
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #A78BFA;
-        }
-
-        /* Hidden utility */
-        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
 </head>
-<body>
+<body class="bg-surface text-on-surface min-h-screen bg-radial-glow selection:bg-primary-container selection:text-white flex flex-col">
 
-<!-- ═══ Top Navigation Bar ═══ -->
-<nav class="topbar">
-    <div class="topbar-left">
-        {% if logo_b64 %}
-        <img src="data:image/png;base64,{{ logo_b64 }}" alt="LodgeGate WEB" class="topbar-logo">
-        {% else %}
-        <span style="font-size:18px;font-weight:900;color:#fff">Lodge<span style="color:#FF7A00">Gate</span></span>
-        {% endif %}
-        <div class="topbar-divider"></div>
-        <div class="topbar-title">Newsletter <span>Studio</span></div>
-    </div>
-    <div class="topbar-right">
-        <span class="topbar-badge">✦ Auto Generator</span>
-        <span class="topbar-version">v2.0</span>
-    </div>
-</nav>
-
-<!-- ═══ Main Content ═══ -->
-<main class="main">
-
-    <!-- Hero -->
-    <section class="hero fade-in">
-        <div class="hero-eyebrow">Newsletter Automation</div>
-        <h1>Create Stunning<br>Hotel Newsletters</h1>
-        <p class="hero-sub">Choose a premium template, drop in your Word document, and get pixel-perfect Mailchimp-ready HTML in seconds.</p>
-    </section>
-
-    <!-- Steps -->
-    <div class="steps fade-in" id="stepsBar">
-        <div class="step active" data-step="1">
-            <span class="step-num">1</span>
-            <span class="step-label">Choose Template</span>
-        </div>
-        <div class="step inactive" data-step="2">
-            <span class="step-num">2</span>
-            <span class="step-label">Upload Content</span>
-        </div>
-        <div class="step inactive" data-step="3">
-            <span class="step-num">3</span>
-            <span class="step-label">Export</span>
-        </div>
-    </div>
-
-    <!-- STEP 1: Template Selection -->
-    <div class="section-card fade-in" id="templateSection">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-icon orange">🎨</div>
-                <div>
-                    <div class="section-title">Choose Your Template</div>
-                    <div class="section-subtitle">Select from 8 premium email designs</div>
-                </div>
+    <!-- Top Navigation Bar -->
+    <nav class="bg-surface/75 backdrop-blur-xl sticky top-0 w-full z-50 border-b border-white/10 shadow-lg flex justify-between items-center px-6 md:px-10 h-16">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-primary-container/20 border border-primary-container/40 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">domain</span>
+            </div>
+            <div>
+                <span class="font-headline text-lg font-bold text-on-surface tracking-tight">LodgeGate & RezXS</span>
+                <span class="text-primary font-medium text-sm pl-2.5 border-l border-white/15 ml-2.5">Newsletter Studio</span>
             </div>
         </div>
-
-        <div class="template-grid" id="templateGrid">
-
-            <!-- Template 1: Executive Dark -->
-            <div class="template-card selected" data-template="executive-dark" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-exec-dark">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Executive Update</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.6)">Professional hotel newsletter</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                        <div class="tp-line" style="background:#E8E8E8"></div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Executive Dark</div>
-                    <div class="template-desc">Premium navy & orange. Clean corporate feel.</div>
-                    <div class="template-tags">
-                        <span class="template-tag rec">Recommended</span>
-                        <span class="template-tag">Corporate</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 2: Sunrise Warm -->
-            <div class="template-card" data-template="sunrise-warm" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-sunrise">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Warm Welcome</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Friendly hospitality tone</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Sunrise Warm</div>
-                    <div class="template-desc">Warm orange gradients. Friendly & inviting.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Hospitality</span>
-                        <span class="template-tag">Warm</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 3: Ocean Blue -->
-            <div class="template-card" data-template="ocean-blue" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-ocean">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Ocean Blue</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Trust & reliability</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Ocean Blue</div>
-                    <div class="template-desc">Professional blue palette. Tech-forward.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Tech</span>
-                        <span class="template-tag">Professional</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 4: Clean Minimal -->
-            <div class="template-card" data-template="clean-minimal" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-minimal">
-                        <div class="tp-header" style="color:#121A2F">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#121A2F">Clean & Simple</div>
-                            <div class="tp-hero-sub" style="color:#888">Less is more</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row" style="background:#FAFAFA">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Clean Minimal</div>
-                    <div class="template-desc">White & bright. Maximum readability.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Minimal</span>
-                        <span class="template-tag">Light</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 5: Midnight Luxe -->
-            <div class="template-card" data-template="midnight-luxe" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-midnight">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#C9A84C">Midnight Luxe</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.5)">5-star luxury aesthetic</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row" style="background:#14142B">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Midnight Luxe</div>
-                    <div class="template-desc">Dark mode with gold accents. Premium boutique.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Luxury</span>
-                        <span class="template-tag">Dark</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 6: Fresh Spring -->
-            <div class="template-card" data-template="fresh-spring" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-spring">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Fresh & Green</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Eco & sustainability</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row" style="background:#F0FFF8">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Fresh Spring</div>
-                    <div class="template-desc">Green tones. Eco-friendly & modern.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Eco</span>
-                        <span class="template-tag">Fresh</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 7: Bold Magazine -->
-            <div class="template-card" data-template="bold-magazine" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-magazine">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Bold & Dynamic</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.7)">Magazine-style layout</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Bold Magazine</div>
-                    <div class="template-desc">Red accents. Eye-catching editorial style.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Bold</span>
-                        <span class="template-tag">Editorial</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Template 8: Slate Pro -->
-            <div class="template-card" data-template="slate-pro" onclick="selectTemplate(this)">
-                <div class="template-preview">
-                    <div class="template-preview-inner tp-slate">
-                        <div class="tp-header">LG</div>
-                        <div class="tp-hero">
-                            <div class="tp-hero-title" style="color:#fff">Slate Professional</div>
-                            <div class="tp-hero-sub" style="color:rgba(255,255,255,.6)">Enterprise newsletter</div>
-                            <div class="tp-btn"></div>
-                        </div>
-                        <div class="tp-row">
-                            <div class="tp-block"></div>
-                            <div class="tp-block"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="template-info">
-                    <div class="template-name">Slate Pro</div>
-                    <div class="template-desc">Neutral grey tones. Enterprise-grade.</div>
-                    <div class="template-tags">
-                        <span class="template-tag">Enterprise</span>
-                        <span class="template-tag">Neutral</span>
-                    </div>
-                </div>
-            </div>
-
+        <div class="flex items-center gap-4">
+            <span class="px-3 py-1 bg-primary-container/15 text-primary border border-primary-container/30 rounded-full font-semibold text-[11px] uppercase tracking-wider">PRO ENVIRONMENT</span>
+            <button class="text-on-surface-variant hover:text-primary transition-colors duration-200 flex items-center gap-1.5 text-sm font-medium" onclick="alert('LodgeGate & RezXS Newsletter Studio — Selecteer een .docx bestand en generer met 1 klik uw Mailchimp e-mail!')">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="hidden sm:inline">Help</span>
+            </button>
         </div>
-    </div>
+    </nav>
 
-    <!-- STEP 1.5: Greeting Style Selection -->
-    <div class="section-card fade-in" id="greetingSection">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-icon" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2)">👋</div>
-                <div>
-                    <div class="section-title">Personal Greeting</div>
-                    <div class="section-subtitle">Greet each contact by their first name via Mailchimp</div>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-8">
+        
+        <!-- Hero Section -->
+        <header class="mb-8 text-center sm:text-left">
+            <h1 class="font-headline text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-white">
+                Transform Word Documents into Branded Mailchimp Newsletters
+            </h1>
+            <p class="text-on-surface-variant text-base md:text-lg max-w-2xl">
+                Automated document extraction, bilingual layout generation, and live Mailchimp visual studio.
+            </p>
+        </header>
+
+        <!-- 4-Step Progress Tracker -->
+        <div class="mb-8 glass-panel rounded-xl p-5 relative">
+            <div class="absolute top-1/2 left-12 right-12 h-0.5 bg-surface-variant -translate-y-1/2 z-0 hidden sm:block"></div>
+            <div id="progressLine" class="absolute top-1/2 left-12 w-1/4 h-0.5 bg-primary-container -translate-y-1/2 z-0 hidden sm:block transition-all duration-500"></div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 relative z-10 gap-4 sm:gap-0">
+                <!-- Step 1 -->
+                <div id="step-1" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="1">
+                    <div class="step-num w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow-[0_0_15px_rgba(255,122,0,0.4)] transition-all">
+                        1
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-primary transition-colors">Upload Document</span>
+                </div>
+                <!-- Step 2 -->
+                <div id="step-2" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="2">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        2
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Choose Template</span>
+                </div>
+                <!-- Step 3 -->
+                <div id="step-3" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="3">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        3
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Personalize</span>
+                </div>
+                <!-- Step 4 -->
+                <div id="step-4" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="4">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        4
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Live Studio & Export</span>
                 </div>
             </div>
         </div>
 
-        <div class="greeting-grid" id="greetingGrid">
-
-            <!-- No Greeting -->
-            <div class="greeting-card selected" data-greeting="none" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🚫</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">No Greeting</div>
-                    <div class="greeting-card-preview">Newsletter starts directly with content</div>
-                </div>
-            </div>
-
-            <!-- Formal NL -->
-            <div class="greeting-card" data-greeting="formal-nl" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🇳🇱</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">Formeel (NL)</div>
-                    <div class="greeting-card-preview">"Beste <span class="merge-tag">Jan</span>,"</div>
-                    <div class="greeting-card-fallback">Fallback: "Beste relatie,"</div>
-                </div>
-            </div>
-
-            <!-- Informal NL -->
-            <div class="greeting-card" data-greeting="casual-nl" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🇳🇱</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">Informeel (NL)</div>
-                    <div class="greeting-card-preview">"Hoi <span class="merge-tag">Jan</span>! 👋"</div>
-                    <div class="greeting-card-fallback">Fallback: "Hoi! 👋"</div>
-                </div>
-            </div>
-
-            <!-- Formal EN -->
-            <div class="greeting-card" data-greeting="formal-en" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🇬🇧</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">Formal (EN)</div>
-                    <div class="greeting-card-preview">"Dear <span class="merge-tag">John</span>,"</div>
-                    <div class="greeting-card-fallback">Fallback: "Dear Sir/Madam,"</div>
-                </div>
-            </div>
-
-            <!-- Casual EN -->
-            <div class="greeting-card" data-greeting="casual-en" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🇬🇧</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">Casual (EN)</div>
-                    <div class="greeting-card-preview">"Hey <span class="merge-tag">John</span>!"</div>
-                    <div class="greeting-card-fallback">Fallback: "Hey there!"</div>
-                </div>
-            </div>
-
-            <!-- Bilingual -->
-            <div class="greeting-card" data-greeting="bilingual" onclick="selectGreeting(this)">
-                <div class="greeting-card-icon">🌍</div>
-                <div class="greeting-card-body">
-                    <div class="greeting-card-name">Bilingual</div>
-                    <div class="greeting-card-preview">"Beste <span class="merge-tag">Jan</span> / Dear <span class="merge-tag">Jan</span>,"</div>
-                    <div class="greeting-card-fallback">Fallback: "Beste relatie / Dear partner,"</div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="greeting-info-bar" id="greetingInfoBar" style="display:none">
-            <span class="greeting-info-icon">✦</span>
-            <span class="greeting-info-text">Uses Mailchimp <code>*|FNAME|*</code> merge tag — each recipient sees their own name from the contact list.</span>
-        </div>
-    </div>
-
-    <!-- STEP 2: Upload -->
-    <div class="section-card fade-in" id="uploadSection">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-icon blue">📄</div>
-                <div>
-                    <div class="section-title">Upload Newsletter Content</div>
-                    <div class="section-subtitle">Drop your monthly Word document below</div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Bento Grid Workspace -->
         <form id="uploadForm" enctype="multipart/form-data">
             <input type="hidden" name="template" id="templateInput" value="executive-dark">
             <input type="hidden" name="greeting" id="greetingInput" value="none">
 
-            <div class="upload-zone" id="dropZone">
-                <div class="upload-icon-wrap">📥</div>
-                <div class="upload-title">Drop your .docx newsletter here</div>
-                <div class="upload-hint">or click to browse files</div>
-                <div class="upload-formats">Accepted: Microsoft Word (.docx)</div>
-                <input type="file" name="file" id="fileInput" accept=".docx" style="display:none">
-            </div>
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                <!-- Left Column: Source Upload & Personalization (4 cols) -->
+                <div class="xl:col-span-4 flex flex-col gap-6">
+                    
+                    <!-- Module A: Upload Source Document -->
+                    <section class="glass-panel rounded-xl p-6 flex flex-col">
+                        <h2 class="font-headline text-lg font-bold mb-4 flex items-center gap-2 text-white">
+                            <span class="material-symbols-outlined text-primary">upload_file</span> Source Document
+                        </h2>
+                        
+                        <!-- Drag and Drop Zone -->
+                        <div id="dropZone" class="border-2 border-dashed border-primary-container/40 hover:border-primary rounded-xl p-8 flex flex-col items-center justify-center text-center bg-surface-container/40 hover:bg-surface-container/70 transition-all cursor-pointer group">
+                            <div class="w-16 h-16 rounded-full bg-primary-container/15 border border-primary-container/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-3xl text-primary">cloud_upload</span>
+                            </div>
+                            <p class="font-semibold text-sm mb-1 text-on-surface">Drag & drop your .docx file here</p>
+                            <p class="text-xs text-on-surface-variant mb-4">or click to browse Microsoft Word files</p>
+                            <span class="px-4 py-1.5 rounded-full border border-primary/40 text-primary text-xs font-semibold group-hover:bg-primary group-hover:text-surface-dim transition-all">Select .docx File</span>
+                            <input type="file" name="file" id="fileInput" accept=".docx" class="hidden">
+                        </div>
 
-            <div class="selected-file" id="fileDisplay">
-                <span class="file-icon">
-                    <span>📎</span>
-                    <span id="fileName"></span>
-                </span>
-                <button type="button" class="remove-btn" onclick="clearFile()">✕ Remove</button>
-            </div>
+                        <!-- Selected File Banner -->
+                        <div id="fileDisplay" class="hidden mt-4 glass-panel rounded-lg p-3.5 items-center gap-3 border-l-4 border-l-tertiary">
+                            <span class="material-symbols-outlined text-tertiary text-2xl">description</span>
+                            <div class="flex-1 min-w-0">
+                                <p id="fileName" class="font-semibold text-sm truncate text-white"></p>
+                                <p class="text-[11px] text-tertiary font-medium">Ready for Mailchimp compilation</p>
+                            </div>
+                            <button type="button" class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-white/5 transition-colors" onclick="clearFile()" title="Remove file">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </div>
 
-            <div class="custom-images-accordion" style="margin: 20px 0; border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,0.02); overflow: hidden;">
-                <div class="custom-images-toggle" onclick="toggleCustomImagesBox()" style="padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; color: var(--text);">
-                    <span>🖼️ Aangepaste Afbeelding URL's vooraf opgeven (Optioneel)</span>
-                    <span id="customImgArrow" style="transition: transform 0.2s;">▼</span>
+                        <!-- Optional Pre-Config Accordion -->
+                        <div class="mt-4 border border-white/10 rounded-lg bg-surface-container-lowest/60 overflow-hidden">
+                            <div class="px-4 py-3 cursor-pointer flex justify-between items-center text-xs font-semibold text-on-surface-variant hover:text-white transition-colors" onclick="toggleCustomImagesBox()">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm text-primary">image</span>
+                                    Pre-assign Image URLs (Optional)
+                                </span>
+                                <span id="customImgArrow" class="material-symbols-outlined text-sm transition-transform duration-200">expand_more</span>
+                            </div>
+                            <div id="customImagesBody" class="hidden px-4 pb-4 pt-2 border-t border-white/5 text-xs space-y-3">
+                                <p class="text-on-surface-variant/80 text-[11px] leading-relaxed">
+                                    Leave blank to auto-use template imagery. You can also visually swap every image in Step 4 after generating!
+                                </p>
+                                <div>
+                                    <label class="block font-semibold mb-1 text-on-surface">Hero Banner Background URL:</label>
+                                    <input type="url" name="hero_image_url" id="preHeroImg" placeholder="https://images.unsplash.com/..." class="w-full bg-surface-container border border-white/10 rounded px-3 py-1.5 text-xs text-white placeholder:text-on-surface-variant/40 focus:border-primary outline-none">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold mb-1 text-on-surface">Article Image URLs (1 URL per line):</label>
+                                    <textarea name="article_images" id="preArticleImgs" rows="2" placeholder="https://images.unsplash.com/foto-1...&#10;https://images.unsplash.com/foto-2..." class="w-full bg-surface-container border border-white/10 rounded px-3 py-1.5 text-xs text-white font-mono placeholder:text-on-surface-variant/40 focus:border-primary outline-none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Module C: Personalization & Generation -->
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h2 class="font-headline text-lg font-bold mb-5 flex items-center gap-2 text-white">
+                                <span class="material-symbols-outlined text-primary">tune</span> Personalization
+                            </h2>
+                            <div class="space-y-5">
+                                <!-- Greeting Style Picker -->
+                                <div>
+                                    <label class="block font-semibold text-xs sm:text-sm mb-2.5 text-on-surface">Mailchimp Greeting Style</label>
+                                    <div class="grid grid-cols-3 gap-2 p-1.5 bg-surface-container-highest rounded-xl border border-white/5">
+                                        <button type="button" class="greeting-btn selected py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="none" onclick="selectGreeting(this)">
+                                            🚫 No Greeting
+                                        </button>
+                                        <button type="button" class="greeting-btn py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="casual-nl" onclick="selectGreeting(this)">
+                                            👋 Casual (NL/EN)
+                                        </button>
+                                        <button type="button" class="greeting-btn py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="formal-nl" onclick="selectGreeting(this)">
+                                            👔 Formal (NL/EN)
+                                        </button>
+                                    </div>
+                                    <p id="greetingInfoText" class="text-[11px] text-on-surface-variant mt-2 flex items-center gap-1.5">
+                                        <span class="material-symbols-outlined text-xs text-primary">info</span>
+                                        Starts directly with article headlines without greeting banner.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generate Button & Spinner -->
+                        <div class="mt-6">
+                            <button type="submit" id="submitBtn" class="w-full btn-primary font-bold text-sm py-4 rounded-xl flex items-center justify-center gap-2.5 tracking-wide uppercase shadow-lg">
+                                <span class="material-symbols-outlined text-xl">auto_awesome</span>
+                                Generate Mailchimp Newsletter
+                            </button>
+                            
+                            <div id="spinnerWrap" class="hidden flex-col items-center justify-center py-4 gap-3 bg-surface-container/60 rounded-xl border border-white/5">
+                                <div class="spinner"></div>
+                                <span class="text-xs font-semibold text-primary animate-pulse">Compiling bilingual HTML & formatting assets...</span>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div id="customImagesBody" style="display: none; padding: 0 18px 18px; border-top: 1px solid var(--border);">
-                    <div style="font-size: 13px; color: var(--text-sub); margin-top: 12px; margin-bottom: 12px;">
-                        Laat leeg om automatisch passende sfeerfoto's te gebruiken. U kunt achteraf in Stap 3 ook elke foto live aanpassen!
-                    </div>
-                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text);">Hero Banner Achtergrond URL:</label>
-                    <input type="url" id="preHeroImg" placeholder="https://images.unsplash.com/..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 13px; box-sizing: border-box; margin-bottom: 14px;">
-                    <label style="display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text);">Artikel Afbeelding URL's (één URL per regel, op volgorde):</label>
-                    <textarea id="preArticleImgs" rows="3" placeholder="https://images.unsplash.com/foto-1...&#10;https://images.unsplash.com/foto-2..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 13px; box-sizing: border-box; font-family: monospace;"></textarea>
+
+                <!-- Right Column: Choose Template Grid (8 cols) -->
+                <div class="xl:col-span-8 flex flex-col">
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
+                            <div>
+                                <h2 class="font-headline text-lg font-bold flex items-center gap-2 text-white">
+                                    <span class="material-symbols-outlined text-primary">style</span> Choose Template Theme
+                                </h2>
+                                <p class="text-xs text-on-surface-variant mt-0.5">Select the visual layout for your hotel or resort newsletter</p>
+                            </div>
+                            <span class="text-xs px-3 py-1 rounded-full bg-surface-container border border-white/10 text-on-surface-variant">8 Pro Themes Available</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
+                            
+                            <!-- Card 1: Executive Dark (Recommended) -->
+                            <div class="template-card selected glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="executive-dark" onclick="selectTemplate(this)">
+                                <div class="absolute top-2 right-2 bg-primary-container text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider z-10 shadow">RECOMMENDED</div>
+                                <div class="aspect-[4/3] bg-[#121A2F] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-white/10">
+                                    <div class="w-full h-5 bg-[#1A2540] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#FF7A00] rounded"></div></div>
+                                    <div class="w-full h-14 bg-[#1A2540] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-1/2 h-1 bg-gray-400 rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-white/90 rounded p-1 flex gap-1"><div class="flex-1 bg-gray-200 rounded"></div><div class="flex-1 bg-gray-200 rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-primary">Executive Dark</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Deep slate & orange contrast. Corporate luxury.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-primary-container/20 text-primary border border-primary/30 px-2 py-0.5 rounded font-semibold">HOTEL PRO</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Sunrise Warm -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="sunrise-warm" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#FFF8F0] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#FF7A00] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#FF7A00] to-[#FF9F43] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#FFE8CC] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Sunrise Warm</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Warm orange gradient header. Inviting & bright.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">BOUTIQUE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Ocean Blue -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="ocean-blue" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F0F7FF] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#0056B3] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#0056B3] to-[#1A6FD1] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#D6E9FF] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Ocean Blue</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Maritime blue & clean white. Modern tech feel.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">RESORT</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Clean Minimal -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="clean-minimal" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-white rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-white border-b-2 border-[#FF7A00] flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#121A2F] rounded"></div></div>
+                                    <div class="w-full h-14 bg-gray-100 rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-[#121A2F] rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#EEEEEE] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Clean Minimal</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">High legibility white theme with orange accent.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">CRISP</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5: Midnight Luxe -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="midnight-luxe" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#0D0D1A] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-white/10">
+                                    <div class="w-full h-5 bg-[#1A1A3E] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#C9A84C] rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#0D0D1A] to-[#1A1A3E] rounded flex flex-col justify-center items-center gap-1 p-1 border border-[#C9A84C]/30">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#C9A84C] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#14142B] rounded p-1 flex gap-1"><div class="flex-1 bg-[#1E1E3F] rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Midnight Luxe</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Charcoal navy & gold accents. 5-star luxury.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 px-2 py-0.5 rounded font-semibold">PREMIUM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Fresh Spring -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="fresh-spring" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F0FFF8] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#10B981] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#10B981] to-[#34D399] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#D1FAE5] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Fresh Spring</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Vibrant emerald & mint. Wellness & spa focus.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">WELLNESS</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 7: Bold Magazine -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="bold-magazine" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-white rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#E63E2A] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-[#E63E2A] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#FEE2DE] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Bold Magazine</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Editorial red & bold typography. High impact.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">EDITORIAL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 8: Slate Pro -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="slate-pro" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F9FAFB] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#374151] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#374151] to-[#4B5563] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#E5E7EB] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Slate Pro</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Understated slate grey tones. Enterprise elegance.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">ENTERPRISE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
                 </div>
-            </div>
-
-            <button type="submit" class="btn-generate" id="submitBtn">✦ Generate Newsletter</button>
-
-            <div class="spinner-wrap" id="spinnerWrap">
-                <div class="spinner"></div>
-                <span class="spinner-text">Compiling your newsletter...</span>
             </div>
         </form>
-    </div>
 
-    <!-- STEP 3: Result -->
-    <div class="section-card result-section" id="resultArea">
-        <div class="section-header">
-            <div class="section-header-left">
-                <div class="section-icon green">✨</div>
-                <div>
-                    <div class="section-title">Your Newsletter is Ready</div>
-                    <div class="section-subtitle">Copy the HTML or download the file</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="success-banner">
-            <div class="success-icon">✓</div>
-            <div>
-                <div class="success-text">Newsletter compiled successfully!</div>
-                <div class="success-sub">Mailchimp-ready HTML with bilingual NL/EN layout</div>
-            </div>
-        </div>
-
-        <div class="result-actions">
-            <button type="button" class="btn-action btn-copy" id="copyBtn" onclick="copyHTML()">
-                📋 Copy Code for Mailchimp
-            </button>
-            <a href="/download" class="btn-action btn-dl" target="_blank">
-                ⬇ Download .html
-            </a>
-        </div>
-
-        <!-- Live Image Editor Panel -->
-        <div class="image-editor-card" style="margin: 30px 0; border: 1px solid var(--border); border-radius: 16px; background: rgba(255,255,255,0.03); padding: 24px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="font-size: 24px;">🖼️</div>
+        <!-- Result Section (Hidden until generated) -->
+        <div id="resultArea" class="hidden mt-8 space-y-6">
+            
+            <!-- Success Header Banner -->
+            <div class="glass-panel rounded-xl p-6 border-l-4 border-l-tertiary flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-tertiary/5">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-full bg-tertiary/20 text-tertiary flex items-center justify-center font-bold text-xl flex-shrink-0">
+                        ✓
+                    </div>
                     <div>
-                        <div style="font-size: 16px; font-weight: 700; color: var(--text);">Afbeelding URL's in de e-mail wijzigen</div>
-                        <div style="font-size: 13px; color: var(--text-sub);">Pas hieronder elke foto aan en ververs direct de mail</div>
+                        <h3 class="font-bold text-base text-white">Newsletter Compiled Successfully!</h3>
+                        <p class="text-xs text-on-surface-variant mt-0.5">Bilingual NL & EN Mailchimp-ready HTML layout generated with your active template.</p>
                     </div>
                 </div>
-                <div>
-                    <label style="font-size: 13px; color: var(--text-sub); display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" id="syncLangCheck" checked style="accent-color: #10B981;">
-                        🔗 Sync NL & EN foto's automatisch
-                    </label>
+                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <button type="button" id="copyBtn" onclick="copyHTML()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-surface-container border border-white/15 text-white hover:bg-white/10 transition-all font-semibold text-xs flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">content_copy</span> Copy Raw HTML
+                    </button>
+                    <a href="/preview" download="Newsletter_LodgeGate_Ready.html" class="flex-1 sm:flex-none px-5 py-2.5 rounded-lg btn-primary font-bold text-xs flex items-center justify-center gap-2 no-underline text-white">
+                        <span class="material-symbols-outlined text-sm">download</span> Download .html
+                    </a>
                 </div>
             </div>
-            <div id="imageEditorList" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; max-height: 420px; overflow-y: auto; padding-right: 6px;">
-                <!-- Dynamically populated -->
+
+            <!-- Two-Column Output Panel: Live Image Studio + HTML Preview -->
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                
+                <!-- Left: Live Image Manager (5 cols) -->
+                <div class="xl:col-span-5 flex flex-col">
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col border border-primary/30 shadow-[0_0_30px_rgba(255,122,0,0.06)]">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="material-symbols-outlined text-primary text-2xl">photo_library</span>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Visual Image Studio</h3>
+                                    <p class="text-[11px] text-on-surface-variant">Live image replacement across all email blocks</p>
+                                </div>
+                            </div>
+                            <label class="text-[11px] text-tertiary flex items-center gap-1.5 cursor-pointer select-none bg-tertiary/10 px-2.5 py-1 rounded-full border border-tertiary/30">
+                                <input type="checkbox" id="syncLangCheck" checked class="rounded text-tertiary focus:ring-0 w-3.5 h-3.5 bg-surface border-white/20">
+                                Sync NL/EN
+                            </label>
+                        </div>
+
+                        <!-- Scrollable list of extracted images -->
+                        <div id="imageEditorList" class="flex-1 overflow-y-auto space-y-3 pr-1 max-h-[520px]">
+                            <div class="text-xs text-on-surface-variant py-4 text-center">Loading detected email assets...</div>
+                        </div>
+
+                        <!-- Save & Reload Button -->
+                        <div class="mt-4 pt-4 border-t border-white/10">
+                            <button type="button" onclick="saveUpdatedImages()" class="w-full py-3 px-4 bg-secondary-container hover:bg-secondary-container/80 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow">
+                                <span class="material-symbols-outlined text-base">sync</span> Apply Image Updates & Refresh Mail
+                            </button>
+                            <div id="imgUpdateFeedback" class="hidden text-center mt-2 text-xs font-semibold text-tertiary"></div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right: Live Iframe Preview (7 cols) -->
+                <div class="xl:col-span-7 flex flex-col">
+                    <section class="glass-panel rounded-xl flex flex-col overflow-hidden border border-white/10 shadow-2xl h-[660px]">
+                        <div class="bg-surface-container/90 px-5 py-3 border-b border-white/10 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-lg">preview</span>
+                                <span class="font-bold text-xs text-white uppercase tracking-wider">Mailchimp Email Preview</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary inline-block animate-pulse"></span>
+                                Live Rendered HTML
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-[#1A1F2C] p-2 sm:p-4 overflow-hidden flex flex-col relative">
+                            <iframe id="previewFrame" src="about:blank" class="w-full flex-1 bg-white rounded-lg border-0 shadow-inner"></iframe>
+                        </div>
+                    </section>
+                </div>
+
             </div>
-            <button type="button" onclick="saveUpdatedImages()" style="background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; border: none; border-radius: 10px; padding: 12px 24px; font-weight: 700; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; transition: opacity 0.2s;">
-                <span>🔄 Afbeeldingen Updaten & Preview Verversen</span>
-            </button>
-            <div id="imgUpdateFeedback" style="display: none; text-align: center; margin-top: 10px; font-size: 13px; font-weight: 600; color: #10B981;"></div>
+
         </div>
 
-        <div class="preview-label">Live Preview</div>
-        <div class="preview-box">
-            <iframe id="previewFrame" src="about:blank"></iframe>
-        </div>
-    </div>
+    </main>
 
-</main>
+    <!-- Footer -->
+    <footer class="bg-surface-dim border-t border-white/10 py-5 px-6 md:px-10 mt-auto text-center text-xs text-on-surface-variant flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p class="font-semibold text-on-surface">© 2026 LodgeGate & RezXS Newsletter Studio</p>
+        <p>Powered by <a href="https://lodgegate.com" target="_blank" class="text-primary hover:underline">LodgeGate PMS</a> & <a href="https://rezxs.com" target="_blank" class="text-primary hover:underline">RezXS Booking Suite</a></p>
+    </footer>
 
-<!-- Footer -->
-<footer class="studio-footer">
-    <p>LodgeGate Newsletter Studio &bull; Powered by <a href="https://lodgegate.com" target="_blank">LodgeGate PMS</a> & <a href="https://rezxs.com" target="_blank">RezXS</a></p>
-</footer>
+    <!-- Interactive Logic Script -->
+    <script>
+        /* ─── Template & Greeting Selection ─── */
+        let selectedTemplate = 'executive-dark';
+        let selectedGreeting = 'none';
 
-<script>
-    /* ─── Template Selection ─── */
-    let selectedTemplate = 'executive-dark';
-    let selectedGreeting = 'none';
-
-    function selectTemplate(el) {
-        document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedTemplate = el.dataset.template;
-        document.getElementById('templateInput').value = selectedTemplate;
-    }
-
-    /* ─── Greeting Selection ─── */
-    function selectGreeting(el) {
-        document.querySelectorAll('.greeting-card').forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedGreeting = el.dataset.greeting;
-        document.getElementById('greetingInput').value = selectedGreeting;
-
-        // Show info bar when a personalized greeting is chosen
-        const infoBar = document.getElementById('greetingInfoBar');
-        if (selectedGreeting !== 'none') {
-            infoBar.style.display = 'flex';
-        } else {
-            infoBar.style.display = 'none';
+        function selectTemplate(el) {
+            document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTemplate = el.dataset.template;
+            document.getElementById('templateInput').value = selectedTemplate;
         }
-    }
 
-    /* ─── File Upload ─── */
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const fileDisplay = document.getElementById('fileDisplay');
-    const fileName = document.getElementById('fileName');
-    const submitBtn = document.getElementById('submitBtn');
-    const form = document.getElementById('uploadForm');
-    const spinnerWrap = document.getElementById('spinnerWrap');
-    const resultArea = document.getElementById('resultArea');
+        function selectGreeting(el) {
+            document.querySelectorAll('.greeting-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedGreeting = el.dataset.greeting;
+            document.getElementById('greetingInput').value = selectedGreeting;
 
-    dropZone.addEventListener('click', () => fileInput.click());
-
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        if (e.dataTransfer.files.length) {
-            fileInput.files = e.dataTransfer.files;
-            handleFileSelect();
+            const info = document.getElementById('greetingInfoText');
+            if (selectedGreeting === 'none') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-primary">info</span> Starts directly with article headlines without greeting banner.`;
+            } else if (selectedGreeting === 'casual-nl') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-tertiary">check_circle</span> Uses Mailchimp tag: "Hoi *|FNAME|*! 👋" (EN: "Hey *|FNAME|*!")`;
+            } else if (selectedGreeting === 'formal-nl') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-tertiary">check_circle</span> Uses Mailchimp tag: "Beste *|FNAME|*," (EN: "Dear *|FNAME|*,")`;
+            }
         }
-    });
 
-    fileInput.addEventListener('change', handleFileSelect);
-
-    function handleFileSelect() {
-        if (fileInput.files.length) {
-            fileName.textContent = fileInput.files[0].name;
-            fileDisplay.style.display = 'flex';
-            submitBtn.style.display = 'block';
-            resultArea.style.display = 'none';
-            updateSteps(2);
-        }
-    }
-
-    function clearFile() {
-        fileInput.value = '';
-        fileDisplay.style.display = 'none';
-        submitBtn.style.display = 'none';
-        updateSteps(1);
-    }
-
-    function updateSteps(active) {
-        document.querySelectorAll('.step').forEach(s => {
-            const n = parseInt(s.dataset.step);
-            s.classList.remove('active', 'inactive', 'done');
-            if (n < active) s.classList.add('done');
-            else if (n === active) s.classList.add('active');
-            else s.classList.add('inactive');
-        });
-    }
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!fileInput.files.length) return;
-
-        submitBtn.style.display = 'none';
-        spinnerWrap.style.display = 'flex';
-        resultArea.style.display = 'none';
-
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
-        formData.append('template', selectedTemplate);
-        formData.append('greeting', selectedGreeting);
-        formData.append('hero_image_url', document.getElementById('preHeroImg').value || '');
-        formData.append('article_images', document.getElementById('preArticleImgs').value || '');
-
-        try {
-            const res = await fetch('/generate', {
-                method: 'POST',
-                body: formData
-            });
-
-            spinnerWrap.style.display = 'none';
-
-            if (res.ok) {
-                resultArea.style.display = 'block';
-                resultArea.classList.add('fade-in');
-                document.getElementById('previewFrame').src = '/preview?' + Date.now();
-                updateSteps(3);
-                loadGeneratedImages();
-                resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        /* ─── Accordion Toggle ─── */
+        function toggleCustomImagesBox() {
+            const body = document.getElementById('customImagesBody');
+            const arrow = document.getElementById('customImgArrow');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
             } else {
-                const data = await res.json();
-                alert('Error: ' + (data.error || 'Unknown error'));
-                submitBtn.style.display = 'block';
-            }
-        } catch (err) {
-            spinnerWrap.style.display = 'none';
-            alert('Connection error. Is the studio server running?');
-            submitBtn.style.display = 'block';
-        }
-    });
-
-    function toggleCustomImagesBox() {
-        const body = document.getElementById('customImagesBody');
-        const arrow = document.getElementById('customImgArrow');
-        if (body.style.display === 'none') {
-            body.style.display = 'block';
-            arrow.style.transform = 'rotate(180deg)';
-        } else {
-            body.style.display = 'none';
-            arrow.style.transform = 'rotate(0deg)';
-        }
-    }
-
-    let currentImageList = [];
-
-    async function loadGeneratedImages() {
-        const listContainer = document.getElementById('imageEditorList');
-        listContainer.innerHTML = '<div style="color: var(--text-sub); font-size: 13px;">Afbeeldingen laden...</div>';
-        try {
-            const res = await fetch('/get_images?' + Date.now());
-            const data = await res.json();
-            if (data.status === 'success' && data.images) {
-                currentImageList = data.images;
-                renderImageEditorList();
-            }
-        } catch (e) {
-            listContainer.innerHTML = '<div style="color: #ef4444; font-size: 13px;">Kon afbeeldingen niet laden.</div>';
-        }
-    }
-
-    function renderImageEditorList() {
-        const listContainer = document.getElementById('imageEditorList');
-        listContainer.innerHTML = '';
-        currentImageList.forEach((img, idx) => {
-            const row = document.createElement('div');
-            row.style.cssText = 'display: flex; align-items: center; gap: 14px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);';
-            row.innerHTML = `
-                <img src="${img.url}" onerror="this.src='https://via.placeholder.com/64x44?text=Foto'" style="width: 64px; height: 44px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #222;">
-                <div style="flex: 1; min-width: 0;">
-                    <div style="font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px;">${img.label}</div>
-                    <input type="url" data-id="${img.id}" value="${img.url}" placeholder="https://..." oninput="handleImageInput('${img.id}', this.value)" onchange="saveUpdatedImages()" style="width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text); font-size: 12px; box-sizing: border-box;">
-                </div>
-            `;
-            listContainer.appendChild(row);
-        });
-    }
-
-    function handleImageInput(changedId, val) {
-        const syncChecked = document.getElementById('syncLangCheck')?.checked;
-        if (!syncChecked) return;
-        
-        if (changedId.includes('_nl_')) {
-            const enId = changedId.replace('_nl_', '_en_');
-            const enInput = document.querySelector(`input[data-id="${enId}"]`);
-            if (enInput) {
-                enInput.value = val;
+                body.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
             }
         }
-    }
 
-    async function saveUpdatedImages() {
-        const inputs = document.querySelectorAll('#imageEditorList input[data-id]');
-        const updates = {};
-        inputs.forEach(inp => {
-            updates[inp.dataset.id] = inp.value.trim();
-        });
+        /* ─── Step Tracker Update ─── */
+        function updateSteps(activeStep) {
+            document.querySelectorAll('.step-item').forEach(stepEl => {
+                const stepNum = parseInt(stepEl.dataset.step);
+                const circle = stepEl.querySelector('.step-num');
+                const label = stepEl.querySelector('.step-label');
 
-        const fb = document.getElementById('imgUpdateFeedback');
-        if (fb) fb.style.display = 'none';
-
-        try {
-            const res = await fetch('/update_images', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ updates })
-            });
-            const data = await res.json();
-            if (data.status === 'success') {
-                const frame = document.getElementById('previewFrame');
-                frame.src = 'about:blank';
-                setTimeout(() => {
-                    frame.src = '/preview?t=' + Date.now();
-                }, 50);
-                if (fb) {
-                    fb.textContent = '✅ Afbeeldingen succesvol bijgewerkt! Live preview is herladen.';
-                    fb.style.display = 'block';
-                    setTimeout(() => { fb.style.display = 'none'; }, 5000);
+                if (stepNum < activeStep) {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-tertiary text-surface-dim flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow transition-all';
+                    circle.innerHTML = '✓';
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-tertiary transition-colors';
+                } else if (stepNum === activeStep) {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow-[0_0_15px_rgba(255,122,0,0.4)] transition-all';
+                    circle.innerHTML = stepNum;
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-primary transition-colors';
+                } else {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all';
+                    circle.innerHTML = stepNum;
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors';
                 }
-            } else {
-                alert('Fout bij updaten: ' + data.error);
-            }
-        } catch (e) {
-            alert('Netwerkfout bij updaten van afbeeldingen.');
-        }
-    }
+            });
 
-    async function copyHTML() {
-        try {
-            const res = await fetch('/raw_html');
-            const text = await res.text();
-            await navigator.clipboard.writeText(text);
-            const btn = document.getElementById('copyBtn');
-            const orig = btn.innerHTML;
-            btn.innerHTML = '✨ Copied to Clipboard!';
-            btn.style.background = '#059669';
-            setTimeout(() => {
-                btn.innerHTML = orig;
-                btn.style.background = '#10B981';
-            }, 3000);
-        } catch (e) {
-            alert('Failed to copy. Please use the download button.');
+            const line = document.getElementById('progressLine');
+            if (line) {
+                if (activeStep === 1) line.style.width = '15%';
+                else if (activeStep === 2) line.style.width = '45%';
+                else if (activeStep === 3) line.style.width = '75%';
+                else if (activeStep >= 4) line.style.width = '100%';
+            }
         }
-    }
-</script>
+
+        /* ─── File Upload Logic ─── */
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileDisplay = document.getElementById('fileDisplay');
+        const fileName = document.getElementById('fileName');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('uploadForm');
+        const spinnerWrap = document.getElementById('spinnerWrap');
+        const resultArea = document.getElementById('resultArea');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-primary/10'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary', 'bg-primary/10'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-primary', 'bg-primary/10');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files.length) {
+                fileName.textContent = fileInput.files[0].name;
+                fileDisplay.classList.remove('hidden');
+                fileDisplay.classList.add('flex');
+                updateSteps(2);
+            }
+        }
+
+        function clearFile() {
+            fileInput.value = '';
+            fileDisplay.classList.add('hidden');
+            fileDisplay.classList.remove('flex');
+            updateSteps(1);
+        }
+
+        /* ─── Form Submission ─── */
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!fileInput.files.length) {
+                alert('Please upload your source .docx document first.');
+                return;
+            }
+
+            submitBtn.classList.add('hidden');
+            spinnerWrap.classList.remove('hidden');
+            spinnerWrap.classList.add('flex');
+            resultArea.classList.add('hidden');
+            updateSteps(3);
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('template', selectedTemplate);
+            formData.append('greeting', selectedGreeting);
+            formData.append('hero_image_url', document.getElementById('preHeroImg').value || '');
+            formData.append('article_images', document.getElementById('preArticleImgs').value || '');
+
+            try {
+                const res = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                spinnerWrap.classList.add('hidden');
+                spinnerWrap.classList.remove('flex');
+                submitBtn.classList.remove('hidden');
+
+                if (res.ok) {
+                    resultArea.classList.remove('hidden');
+                    resultArea.classList.add('fade-in');
+                    document.getElementById('previewFrame').src = '/preview?' + Date.now();
+                    updateSteps(4);
+                    loadGeneratedImages();
+                    resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    const data = await res.json();
+                    alert('Compilation Error: ' + (data.error || 'Unknown error occurred'));
+                }
+            } catch (err) {
+                spinnerWrap.classList.add('hidden');
+                spinnerWrap.classList.remove('flex');
+                submitBtn.classList.remove('hidden');
+                alert('Connection error. Please make sure the Newsletter Studio Flask app is running.');
+            }
+        });
+
+        /* ─── Visual Image Studio Logic ─── */
+        let currentImageList = [];
+
+        async function loadGeneratedImages() {
+            const listContainer = document.getElementById('imageEditorList');
+            listContainer.innerHTML = '<div class="text-xs text-on-surface-variant py-4 text-center">Scanning email template for images...</div>';
+            try {
+                const res = await fetch('/get_images?' + Date.now());
+                const data = await res.json();
+                if (data.status === 'success' && data.images) {
+                    currentImageList = data.images;
+                    renderImageEditorList();
+                }
+            } catch (e) {
+                listContainer.innerHTML = '<div class="text-xs text-error py-4 text-center">Failed to load email images.</div>';
+            }
+        }
+
+        function renderImageEditorList() {
+            const listContainer = document.getElementById('imageEditorList');
+            listContainer.innerHTML = '';
+            if (currentImageList.length === 0) {
+                listContainer.innerHTML = '<div class="text-xs text-on-surface-variant py-4 text-center">No customizable images found in this template.</div>';
+                return;
+            }
+            currentImageList.forEach((img) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center gap-3 bg-surface-container/80 p-2.5 rounded-lg border border-white/5 hover:border-white/15 transition-colors';
+                row.innerHTML = `
+                    <img src="${img.url}" onerror="this.src='https://via.placeholder.com/64x44?text=Img'" class="w-14 h-10 object-cover rounded bg-surface-dim flex-shrink-0 border border-white/10">
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-semibold text-white truncate mb-1">${img.label}</div>
+                        <input type="url" data-id="${img.id}" value="${img.url}" placeholder="https://..." oninput="handleImageInput('${img.id}', this.value)" class="w-full bg-surface-dim border border-white/10 rounded px-2.5 py-1 text-[11px] text-white focus:border-primary outline-none">
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        function handleImageInput(changedId, val) {
+            const syncChecked = document.getElementById('syncLangCheck')?.checked;
+            if (!syncChecked) return;
+            if (changedId.includes('_nl_')) {
+                const enId = changedId.replace('_nl_', '_en_');
+                const enInput = document.querySelector(`input[data-id="${enId}"]`);
+                if (enInput) enInput.value = val;
+            }
+        }
+
+        async function saveUpdatedImages() {
+            const inputs = document.querySelectorAll('#imageEditorList input[data-id]');
+            const updates = {};
+            inputs.forEach(inp => { updates[inp.dataset.id] = inp.value.trim(); });
+
+            const fb = document.getElementById('imgUpdateFeedback');
+            if (fb) fb.classList.add('hidden');
+
+            try {
+                const res = await fetch('/update_images', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ updates })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const frame = document.getElementById('previewFrame');
+                    frame.src = 'about:blank';
+                    setTimeout(() => { frame.src = '/preview?t=' + Date.now(); }, 50);
+                    if (fb) {
+                        fb.textContent = '✨ Images updated! Live preview refreshed.';
+                        fb.classList.remove('hidden');
+                        setTimeout(() => fb.classList.add('hidden'), 4000);
+                    }
+                } else {
+                    alert('Update error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Network error while updating images.');
+            }
+        }
+
+        async function copyHTML() {
+            try {
+                const res = await fetch('/raw_html');
+                const text = await res.text();
+                await navigator.clipboard.writeText(text);
+                const btn = document.getElementById('copyBtn');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Copied!';
+                btn.classList.replace('bg-surface-container', 'bg-tertiary/20');
+                btn.classList.add('text-tertiary', 'border-tertiary/40');
+                setTimeout(() => {
+                    btn.innerHTML = orig;
+                    btn.classList.replace('bg-tertiary/20', 'bg-surface-container');
+                    btn.classList.remove('text-tertiary', 'border-tertiary/40');
+                }, 3000);
+            } catch (e) {
+                alert('Failed to copy. Please download the HTML file.');
+            }
+        }
+    </script>
 </body>
 </html>
