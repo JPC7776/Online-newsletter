@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Newsletter Studio - LodgeGate & RezXS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&family=Plus+Jakarta+Sans:wght@300..900&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-surface": "#dde2f5",
+                        "tertiary": "#4edea3",
+                        "on-primary-container": "#ffffff",
+                        "outline": "#a78b7c",
+                        "surface-bright": "#333948",
+                        "surface-dim": "#0d1320",
+                        "on-background": "#dde2f5",
+                        "surface-container": "#1a1f2d",
+                        "surface-variant": "#2f3543",
+                        "primary-container": "#ff7a00",
+                        "on-surface-variant": "#8c96ab",
+                        "surface-container-highest": "#2f3543",
+                        "surface-container-lowest": "#080e1b",
+                        "tertiary-container": "#03b67e",
+                        "surface-container-low": "#161b29",
+                        "background": "#0d1320",
+                        "primary": "#ffb68b",
+                        "surface": "#0d1320",
+                        "secondary": "#acc7ff",
+                        "error": "#ffb4ab",
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Plus Jakarta Sans", "sans-serif"],
+                        body: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(18, 26, 47, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-panel:hover {
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+        .glow-active {
+            box-shadow: 0 0 24px rgba(255, 122, 0, 0.25);
+            border-color: #ff7a00 !important;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff7a00 0%, #e86e00 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 122, 0, 0.35);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 8px 28px rgba(255, 122, 0, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .bg-radial-glow {
+            background: radial-gradient(circle at top right, rgba(255, 122, 0, 0.07), transparent 45%),
+                        radial-gradient(circle at bottom left, rgba(2, 87, 180, 0.07), transparent 45%),
+                        #0d1320;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 122, 0, 0.35); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 122, 0, 0.6); }
+        
+        .template-card.selected {
+            border-color: #ff7a00 !important;
+            box-shadow: 0 0 28px rgba(255, 122, 0, 0.28), 0 0 0 1px #ff7a00 !important;
+            background: rgba(26, 37, 64, 0.85);
+        }
+        .template-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: #ff7a00;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            z-index: 15;
+            box-shadow: 0 2px 8px rgba(255,122,0,0.4);
+        }
+        
+        .greeting-btn.selected {
+            background: #ff7a00 !important;
+            color: #ffffff !important;
+            border-color: #ff7a00 !important;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(255, 122, 0, 0.3);
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid #ff7a00;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen bg-radial-glow selection:bg-primary-container selection:text-white flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-surface/75 backdrop-blur-xl sticky top-0 w-full z-50 border-b border-white/10 shadow-lg flex justify-between items-center px-6 md:px-10 h-16">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-primary-container/20 border border-primary-container/40 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">domain</span>
+            </div>
+            <div>
+                <span class="font-headline text-lg font-bold text-on-surface tracking-tight">LodgeGate & RezXS</span>
+                <span class="text-primary font-medium text-sm pl-2.5 border-l border-white/15 ml-2.5">Newsletter Studio</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="px-3 py-1 bg-primary-container/15 text-primary border border-primary-container/30 rounded-full font-semibold text-[11px] uppercase tracking-wider">PRO ENVIRONMENT</span>
+            <button class="text-on-surface-variant hover:text-primary transition-colors duration-200 flex items-center gap-1.5 text-sm font-medium" onclick="alert('LodgeGate & RezXS Newsletter Studio — Selecteer een .docx bestand en generer met 1 klik uw Mailchimp e-mail!')">
+                <span class="material-symbols-outlined text-lg">help</span>
+                <span class="hidden sm:inline">Help</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 py-8">
+        
+        <!-- Hero Section -->
+        <header class="mb-8 text-center sm:text-left">
+            <h1 class="font-headline text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-2 text-white">
+                Transform Word Documents into Branded Mailchimp Newsletters
+            </h1>
+            <p class="text-on-surface-variant text-base md:text-lg max-w-2xl">
+                Automated document extraction, bilingual layout generation, and live Mailchimp visual studio.
+            </p>
+        </header>
+
+        <!-- 4-Step Progress Tracker -->
+        <div class="mb-8 glass-panel rounded-xl p-5 relative">
+            <div class="absolute top-1/2 left-12 right-12 h-0.5 bg-surface-variant -translate-y-1/2 z-0 hidden sm:block"></div>
+            <div id="progressLine" class="absolute top-1/2 left-12 w-1/4 h-0.5 bg-primary-container -translate-y-1/2 z-0 hidden sm:block transition-all duration-500"></div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 relative z-10 gap-4 sm:gap-0">
+                <!-- Step 1 -->
+                <div id="step-1" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="1">
+                    <div class="step-num w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow-[0_0_15px_rgba(255,122,0,0.4)] transition-all">
+                        1
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-primary transition-colors">Upload Document</span>
+                </div>
+                <!-- Step 2 -->
+                <div id="step-2" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="2">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        2
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Choose Template</span>
+                </div>
+                <!-- Step 3 -->
+                <div id="step-3" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="3">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        3
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Personalize</span>
+                </div>
+                <!-- Step 4 -->
+                <div id="step-4" class="step-item flex items-center sm:flex-col gap-3 sm:gap-2 text-center cursor-pointer group" data-step="4">
+                    <div class="step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all">
+                        4
+                    </div>
+                    <span class="step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors">Live Studio & Export</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bento Grid Workspace -->
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="hidden" name="template" id="templateInput" value="executive-dark">
+            <input type="hidden" name="greeting" id="greetingInput" value="none">
+
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                <!-- Left Column: Source Upload & Personalization (4 cols) -->
+                <div class="xl:col-span-4 flex flex-col gap-6">
+                    
+                    <!-- Module A: Upload Source Document -->
+                    <section class="glass-panel rounded-xl p-6 flex flex-col">
+                        <h2 class="font-headline text-lg font-bold mb-4 flex items-center gap-2 text-white">
+                            <span class="material-symbols-outlined text-primary">upload_file</span> Source Document
+                        </h2>
+                        
+                        <!-- Drag and Drop Zone -->
+                        <div id="dropZone" class="border-2 border-dashed border-primary-container/40 hover:border-primary rounded-xl p-8 flex flex-col items-center justify-center text-center bg-surface-container/40 hover:bg-surface-container/70 transition-all cursor-pointer group">
+                            <div class="w-16 h-16 rounded-full bg-primary-container/15 border border-primary-container/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-3xl text-primary">cloud_upload</span>
+                            </div>
+                            <p class="font-semibold text-sm mb-1 text-on-surface">Drag & drop your .docx file here</p>
+                            <p class="text-xs text-on-surface-variant mb-4">or click to browse Microsoft Word files</p>
+                            <span class="px-4 py-1.5 rounded-full border border-primary/40 text-primary text-xs font-semibold group-hover:bg-primary group-hover:text-surface-dim transition-all">Select .docx File</span>
+                            <input type="file" name="file" id="fileInput" accept=".docx" class="hidden">
+                        </div>
+
+                        <!-- Selected File Banner -->
+                        <div id="fileDisplay" class="hidden mt-4 glass-panel rounded-lg p-3.5 items-center gap-3 border-l-4 border-l-tertiary">
+                            <span class="material-symbols-outlined text-tertiary text-2xl">description</span>
+                            <div class="flex-1 min-w-0">
+                                <p id="fileName" class="font-semibold text-sm truncate text-white"></p>
+                                <p class="text-[11px] text-tertiary font-medium">Ready for Mailchimp compilation</p>
+                            </div>
+                            <button type="button" class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-white/5 transition-colors" onclick="clearFile()" title="Remove file">
+                                <span class="material-symbols-outlined text-lg">delete</span>
+                            </button>
+                        </div>
+
+                        <!-- Optional Pre-Config Accordion -->
+                        <div class="mt-4 border border-white/10 rounded-lg bg-surface-container-lowest/60 overflow-hidden">
+                            <div class="px-4 py-3 cursor-pointer flex justify-between items-center text-xs font-semibold text-on-surface-variant hover:text-white transition-colors" onclick="toggleCustomImagesBox()">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm text-primary">image</span>
+                                    Pre-assign Image URLs (Optional)
+                                </span>
+                                <span id="customImgArrow" class="material-symbols-outlined text-sm transition-transform duration-200">expand_more</span>
+                            </div>
+                            <div id="customImagesBody" class="hidden px-4 pb-4 pt-2 border-t border-white/5 text-xs space-y-3">
+                                <p class="text-on-surface-variant/80 text-[11px] leading-relaxed">
+                                    Leave blank to auto-use template imagery. You can also visually swap every image in Step 4 after generating!
+                                </p>
+                                <div>
+                                    <label class="block font-semibold mb-1 text-on-surface">Hero Banner Background URL:</label>
+                                    <input type="url" name="hero_image_url" id="preHeroImg" placeholder="https://images.unsplash.com/..." class="w-full bg-surface-container border border-white/10 rounded px-3 py-1.5 text-xs text-white placeholder:text-on-surface-variant/40 focus:border-primary outline-none">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold mb-1 text-on-surface">Article Image URLs (1 URL per line):</label>
+                                    <textarea name="article_images" id="preArticleImgs" rows="2" placeholder="https://images.unsplash.com/foto-1...&#10;https://images.unsplash.com/foto-2..." class="w-full bg-surface-container border border-white/10 rounded px-3 py-1.5 text-xs text-white font-mono placeholder:text-on-surface-variant/40 focus:border-primary outline-none"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Module C: Personalization & Generation -->
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h2 class="font-headline text-lg font-bold mb-5 flex items-center gap-2 text-white">
+                                <span class="material-symbols-outlined text-primary">tune</span> Personalization
+                            </h2>
+                            <div class="space-y-5">
+                                <!-- Greeting Style Picker -->
+                                <div>
+                                    <label class="block font-semibold text-xs sm:text-sm mb-2.5 text-on-surface">Mailchimp Greeting Style</label>
+                                    <div class="grid grid-cols-3 gap-2 p-1.5 bg-surface-container-highest rounded-xl border border-white/5">
+                                        <button type="button" class="greeting-btn selected py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="none" onclick="selectGreeting(this)">
+                                            🚫 No Greeting
+                                        </button>
+                                        <button type="button" class="greeting-btn py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="casual-nl" onclick="selectGreeting(this)">
+                                            👋 Casual (NL/EN)
+                                        </button>
+                                        <button type="button" class="greeting-btn py-2 px-2 rounded-lg text-xs font-medium text-on-surface transition-all border border-transparent" data-greeting="formal-nl" onclick="selectGreeting(this)">
+                                            👔 Formal (NL/EN)
+                                        </button>
+                                    </div>
+                                    <p id="greetingInfoText" class="text-[11px] text-on-surface-variant mt-2 flex items-center gap-1.5">
+                                        <span class="material-symbols-outlined text-xs text-primary">info</span>
+                                        Starts directly with article headlines without greeting banner.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generate Button & Spinner -->
+                        <div class="mt-6">
+                            <button type="submit" id="submitBtn" class="w-full btn-primary font-bold text-sm py-4 rounded-xl flex items-center justify-center gap-2.5 tracking-wide uppercase shadow-lg">
+                                <span class="material-symbols-outlined text-xl">auto_awesome</span>
+                                Generate Mailchimp Newsletter
+                            </button>
+                            
+                            <div id="spinnerWrap" class="hidden flex-col items-center justify-center py-4 gap-3 bg-surface-container/60 rounded-xl border border-white/5">
+                                <div class="spinner"></div>
+                                <span class="text-xs font-semibold text-primary animate-pulse">Compiling bilingual HTML & formatting assets...</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column: Choose Template Grid (8 cols) -->
+                <div class="xl:col-span-8 flex flex-col">
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-6">
+                            <div>
+                                <h2 class="font-headline text-lg font-bold flex items-center gap-2 text-white">
+                                    <span class="material-symbols-outlined text-primary">style</span> Choose Template Theme
+                                </h2>
+                                <p class="text-xs text-on-surface-variant mt-0.5">Select the visual layout for your hotel or resort newsletter</p>
+                            </div>
+                            <span class="text-xs px-3 py-1 rounded-full bg-surface-container border border-white/10 text-on-surface-variant">8 Pro Themes Available</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
+                            
+                            <!-- Card 1: Executive Dark (Recommended) -->
+                            <div class="template-card selected glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="executive-dark" onclick="selectTemplate(this)">
+                                <div class="absolute top-2 right-2 bg-primary-container text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider z-10 shadow">RECOMMENDED</div>
+                                <div class="aspect-[4/3] bg-[#121A2F] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-white/10">
+                                    <div class="w-full h-5 bg-[#1A2540] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#FF7A00] rounded"></div></div>
+                                    <div class="w-full h-14 bg-[#1A2540] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-1/2 h-1 bg-gray-400 rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-white/90 rounded p-1 flex gap-1"><div class="flex-1 bg-gray-200 rounded"></div><div class="flex-1 bg-gray-200 rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-primary">Executive Dark</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Deep slate & orange contrast. Corporate luxury.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-primary-container/20 text-primary border border-primary/30 px-2 py-0.5 rounded font-semibold">HOTEL PRO</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Sunrise Warm -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="sunrise-warm" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#FFF8F0] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#FF7A00] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#FF7A00] to-[#FF9F43] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#FFE8CC] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Sunrise Warm</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Warm orange gradient header. Inviting & bright.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">BOUTIQUE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Ocean Blue -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="ocean-blue" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F0F7FF] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#0056B3] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#0056B3] to-[#1A6FD1] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#D6E9FF] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Ocean Blue</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Maritime blue & clean white. Modern tech feel.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">RESORT</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Clean Minimal -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="clean-minimal" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-white rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-white border-b-2 border-[#FF7A00] flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#121A2F] rounded"></div></div>
+                                    <div class="w-full h-14 bg-gray-100 rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-[#121A2F] rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#EEEEEE] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Clean Minimal</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">High legibility white theme with orange accent.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">CRISP</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5: Midnight Luxe -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="midnight-luxe" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#0D0D1A] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-white/10">
+                                    <div class="w-full h-5 bg-[#1A1A3E] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-[#C9A84C] rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#0D0D1A] to-[#1A1A3E] rounded flex flex-col justify-center items-center gap-1 p-1 border border-[#C9A84C]/30">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#C9A84C] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#14142B] rounded p-1 flex gap-1"><div class="flex-1 bg-[#1E1E3F] rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Midnight Luxe</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Charcoal navy & gold accents. 5-star luxury.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 px-2 py-0.5 rounded font-semibold">PREMIUM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6: Fresh Spring -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="fresh-spring" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F0FFF8] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#10B981] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#10B981] to-[#34D399] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#D1FAE5] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Fresh Spring</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Vibrant emerald & mint. Wellness & spa focus.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">WELLNESS</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 7: Bold Magazine -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="bold-magazine" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-white rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#E63E2A] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-[#E63E2A] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#121A2F] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#FEE2DE] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Bold Magazine</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Editorial red & bold typography. High impact.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">EDITORIAL</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 8: Slate Pro -->
+                            <div class="template-card glass-panel rounded-xl p-4 cursor-pointer relative overflow-hidden group flex flex-col justify-between" data-template="slate-pro" onclick="selectTemplate(this)">
+                                <div class="aspect-[4/3] bg-[#F9FAFB] rounded-lg mb-3 p-3 flex flex-col gap-1.5 relative overflow-hidden group-hover:scale-[1.02] transition-transform border border-black/10">
+                                    <div class="w-full h-5 bg-[#374151] rounded flex items-center px-1.5"><div class="w-8 h-1.5 bg-white rounded"></div></div>
+                                    <div class="w-full h-14 bg-gradient-to-br from-[#374151] to-[#4B5563] rounded flex flex-col justify-center items-center gap-1 p-1">
+                                        <div class="w-3/4 h-1.5 bg-white rounded"></div>
+                                        <div class="w-8 h-2 bg-[#FF7A00] rounded mt-1"></div>
+                                    </div>
+                                    <div class="w-full flex-1 bg-[#E5E7EB] rounded p-1 flex gap-1"><div class="flex-1 bg-white rounded"></div></div>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-on-surface">Slate Pro</h3>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Understated slate grey tones. Enterprise elegance.</p>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="text-[9px] bg-white/5 px-2 py-0.5 rounded text-on-surface-variant">ENTERPRISE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </form>
+
+        <!-- Result Section (Hidden until generated) -->
+        <div id="resultArea" class="hidden mt-8 space-y-6">
+            
+            <!-- Success Header Banner -->
+            <div class="glass-panel rounded-xl p-6 border-l-4 border-l-tertiary flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-tertiary/5">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-full bg-tertiary/20 text-tertiary flex items-center justify-center font-bold text-xl flex-shrink-0">
+                        ✓
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-white">Newsletter Compiled Successfully!</h3>
+                        <p class="text-xs text-on-surface-variant mt-0.5">Bilingual NL & EN Mailchimp-ready HTML layout generated with your active template.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                    <button type="button" id="copyBtn" onclick="copyHTML()" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg bg-surface-container border border-white/15 text-white hover:bg-white/10 transition-all font-semibold text-xs flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">content_copy</span> Copy Raw HTML
+                    </button>
+                    <a href="/preview" download="Newsletter_LodgeGate_Ready.html" class="flex-1 sm:flex-none px-5 py-2.5 rounded-lg btn-primary font-bold text-xs flex items-center justify-center gap-2 no-underline text-white">
+                        <span class="material-symbols-outlined text-sm">download</span> Download .html
+                    </a>
+                </div>
+            </div>
+
+            <!-- Two-Column Output Panel: Live Image Studio + HTML Preview -->
+            <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+                
+                <!-- Left: Live Image Manager (5 cols) -->
+                <div class="xl:col-span-5 flex flex-col">
+                    <section class="glass-panel rounded-xl p-6 flex-1 flex flex-col border border-primary/30 shadow-[0_0_30px_rgba(255,122,0,0.06)]">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="material-symbols-outlined text-primary text-2xl">photo_library</span>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Visual Image Studio</h3>
+                                    <p class="text-[11px] text-on-surface-variant">Live image replacement across all email blocks</p>
+                                </div>
+                            </div>
+                            <label class="text-[11px] text-tertiary flex items-center gap-1.5 cursor-pointer select-none bg-tertiary/10 px-2.5 py-1 rounded-full border border-tertiary/30">
+                                <input type="checkbox" id="syncLangCheck" checked class="rounded text-tertiary focus:ring-0 w-3.5 h-3.5 bg-surface border-white/20">
+                                Sync NL/EN
+                            </label>
+                        </div>
+
+                        <!-- Scrollable list of extracted images -->
+                        <div id="imageEditorList" class="flex-1 overflow-y-auto space-y-3 pr-1 max-h-[520px]">
+                            <div class="text-xs text-on-surface-variant py-4 text-center">Loading detected email assets...</div>
+                        </div>
+
+                        <!-- Save & Reload Button -->
+                        <div class="mt-4 pt-4 border-t border-white/10">
+                            <button type="button" onclick="saveUpdatedImages()" class="w-full py-3 px-4 bg-secondary-container hover:bg-secondary-container/80 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow">
+                                <span class="material-symbols-outlined text-base">sync</span> Apply Image Updates & Refresh Mail
+                            </button>
+                            <div id="imgUpdateFeedback" class="hidden text-center mt-2 text-xs font-semibold text-tertiary"></div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right: Live Iframe Preview (7 cols) -->
+                <div class="xl:col-span-7 flex flex-col">
+                    <section class="glass-panel rounded-xl flex flex-col overflow-hidden border border-white/10 shadow-2xl h-[660px]">
+                        <div class="bg-surface-container/90 px-5 py-3 border-b border-white/10 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-lg">preview</span>
+                                <span class="font-bold text-xs text-white uppercase tracking-wider">Mailchimp Email Preview</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+                                <span class="w-2.5 h-2.5 rounded-full bg-tertiary inline-block animate-pulse"></span>
+                                Live Rendered HTML
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-[#1A1F2C] p-2 sm:p-4 overflow-hidden flex flex-col relative">
+                            <iframe id="previewFrame" src="about:blank" class="w-full flex-1 bg-white rounded-lg border-0 shadow-inner"></iframe>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-dim border-t border-white/10 py-5 px-6 md:px-10 mt-auto text-center text-xs text-on-surface-variant flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p class="font-semibold text-on-surface">© 2026 LodgeGate & RezXS Newsletter Studio</p>
+        <p>Powered by <a href="https://lodgegate.com" target="_blank" class="text-primary hover:underline">LodgeGate PMS</a> & <a href="https://rezxs.com" target="_blank" class="text-primary hover:underline">RezXS Booking Suite</a></p>
+    </footer>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        /* ─── Template & Greeting Selection ─── */
+        let selectedTemplate = 'executive-dark';
+        let selectedGreeting = 'none';
+
+        function selectTemplate(el) {
+            document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTemplate = el.dataset.template;
+            document.getElementById('templateInput').value = selectedTemplate;
+        }
+
+        function selectGreeting(el) {
+            document.querySelectorAll('.greeting-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedGreeting = el.dataset.greeting;
+            document.getElementById('greetingInput').value = selectedGreeting;
+
+            const info = document.getElementById('greetingInfoText');
+            if (selectedGreeting === 'none') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-primary">info</span> Starts directly with article headlines without greeting banner.`;
+            } else if (selectedGreeting === 'casual-nl') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-tertiary">check_circle</span> Uses Mailchimp tag: "Hoi *|FNAME|*! 👋" (EN: "Hey *|FNAME|*!")`;
+            } else if (selectedGreeting === 'formal-nl') {
+                info.innerHTML = `<span class="material-symbols-outlined text-xs text-tertiary">check_circle</span> Uses Mailchimp tag: "Beste *|FNAME|*," (EN: "Dear *|FNAME|*,")`;
+            }
+        }
+
+        /* ─── Accordion Toggle ─── */
+        function toggleCustomImagesBox() {
+            const body = document.getElementById('customImagesBody');
+            const arrow = document.getElementById('customImgArrow');
+            if (body.classList.contains('hidden')) {
+                body.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                body.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        /* ─── Step Tracker Update ─── */
+        function updateSteps(activeStep) {
+            document.querySelectorAll('.step-item').forEach(stepEl => {
+                const stepNum = parseInt(stepEl.dataset.step);
+                const circle = stepEl.querySelector('.step-num');
+                const label = stepEl.querySelector('.step-label');
+
+                if (stepNum < activeStep) {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-tertiary text-surface-dim flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow transition-all';
+                    circle.innerHTML = '✓';
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-tertiary transition-colors';
+                } else if (stepNum === activeStep) {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm ring-4 ring-surface shadow-[0_0_15px_rgba(255,122,0,0.4)] transition-all';
+                    circle.innerHTML = stepNum;
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-primary transition-colors';
+                } else {
+                    circle.className = 'step-num w-9 h-9 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold text-sm ring-4 ring-surface border border-white/10 group-hover:border-white/30 transition-all';
+                    circle.innerHTML = stepNum;
+                    label.className = 'step-label font-semibold text-xs sm:text-sm text-on-surface-variant transition-colors';
+                }
+            });
+
+            const line = document.getElementById('progressLine');
+            if (line) {
+                if (activeStep === 1) line.style.width = '15%';
+                else if (activeStep === 2) line.style.width = '45%';
+                else if (activeStep === 3) line.style.width = '75%';
+                else if (activeStep >= 4) line.style.width = '100%';
+            }
+        }
+
+        /* ─── File Upload Logic ─── */
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileDisplay = document.getElementById('fileDisplay');
+        const fileName = document.getElementById('fileName');
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('uploadForm');
+        const spinnerWrap = document.getElementById('spinnerWrap');
+        const resultArea = document.getElementById('resultArea');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-primary/10'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-primary', 'bg-primary/10'));
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-primary', 'bg-primary/10');
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect();
+            }
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files.length) {
+                fileName.textContent = fileInput.files[0].name;
+                fileDisplay.classList.remove('hidden');
+                fileDisplay.classList.add('flex');
+                updateSteps(2);
+            }
+        }
+
+        function clearFile() {
+            fileInput.value = '';
+            fileDisplay.classList.add('hidden');
+            fileDisplay.classList.remove('flex');
+            updateSteps(1);
+        }
+
+        /* ─── Form Submission ─── */
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!fileInput.files.length) {
+                alert('Please upload your source .docx document first.');
+                return;
+            }
+
+            submitBtn.classList.add('hidden');
+            spinnerWrap.classList.remove('hidden');
+            spinnerWrap.classList.add('flex');
+            resultArea.classList.add('hidden');
+            updateSteps(3);
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('template', selectedTemplate);
+            formData.append('greeting', selectedGreeting);
+            formData.append('hero_image_url', document.getElementById('preHeroImg').value || '');
+            formData.append('article_images', document.getElementById('preArticleImgs').value || '');
+
+            try {
+                const res = await fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                spinnerWrap.classList.add('hidden');
+                spinnerWrap.classList.remove('flex');
+                submitBtn.classList.remove('hidden');
+
+                if (res.ok) {
+                    resultArea.classList.remove('hidden');
+                    resultArea.classList.add('fade-in');
+                    document.getElementById('previewFrame').src = '/preview?' + Date.now();
+                    updateSteps(4);
+                    loadGeneratedImages();
+                    resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    const data = await res.json();
+                    alert('Compilation Error: ' + (data.error || 'Unknown error occurred'));
+                }
+            } catch (err) {
+                spinnerWrap.classList.add('hidden');
+                spinnerWrap.classList.remove('flex');
+                submitBtn.classList.remove('hidden');
+                alert('Connection error. Please make sure the Newsletter Studio Flask app is running.');
+            }
+        });
+
+        /* ─── Visual Image Studio Logic ─── */
+        let currentImageList = [];
+
+        async function loadGeneratedImages() {
+            const listContainer = document.getElementById('imageEditorList');
+            listContainer.innerHTML = '<div class="text-xs text-on-surface-variant py-4 text-center">Scanning email template for images...</div>';
+            try {
+                const res = await fetch('/get_images?' + Date.now());
+                const data = await res.json();
+                if (data.status === 'success' && data.images) {
+                    currentImageList = data.images;
+                    renderImageEditorList();
+                }
+            } catch (e) {
+                listContainer.innerHTML = '<div class="text-xs text-error py-4 text-center">Failed to load email images.</div>';
+            }
+        }
+
+        function renderImageEditorList() {
+            const listContainer = document.getElementById('imageEditorList');
+            listContainer.innerHTML = '';
+            if (currentImageList.length === 0) {
+                listContainer.innerHTML = '<div class="text-xs text-on-surface-variant py-4 text-center">No customizable images found in this template.</div>';
+                return;
+            }
+            currentImageList.forEach((img) => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center gap-3 bg-surface-container/80 p-2.5 rounded-lg border border-white/5 hover:border-white/15 transition-colors';
+                row.innerHTML = `
+                    <img src="${img.url}" onerror="this.src='https://via.placeholder.com/64x44?text=Img'" class="w-14 h-10 object-cover rounded bg-surface-dim flex-shrink-0 border border-white/10">
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-semibold text-white truncate mb-1">${img.label}</div>
+                        <input type="url" data-id="${img.id}" value="${img.url}" placeholder="https://..." oninput="handleImageInput('${img.id}', this.value)" class="w-full bg-surface-dim border border-white/10 rounded px-2.5 py-1 text-[11px] text-white focus:border-primary outline-none">
+                    </div>
+                `;
+                listContainer.appendChild(row);
+            });
+        }
+
+        function handleImageInput(changedId, val) {
+            const syncChecked = document.getElementById('syncLangCheck')?.checked;
+            if (!syncChecked) return;
+            if (changedId.includes('_nl_')) {
+                const enId = changedId.replace('_nl_', '_en_');
+                const enInput = document.querySelector(`input[data-id="${enId}"]`);
+                if (enInput) enInput.value = val;
+            }
+        }
+
+        async function saveUpdatedImages() {
+            const inputs = document.querySelectorAll('#imageEditorList input[data-id]');
+            const updates = {};
+            inputs.forEach(inp => { updates[inp.dataset.id] = inp.value.trim(); });
+
+            const fb = document.getElementById('imgUpdateFeedback');
+            if (fb) fb.classList.add('hidden');
+
+            try {
+                const res = await fetch('/update_images', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ updates })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    const frame = document.getElementById('previewFrame');
+                    frame.src = 'about:blank';
+                    setTimeout(() => { frame.src = '/preview?t=' + Date.now(); }, 50);
+                    if (fb) {
+                        fb.textContent = '✨ Images updated! Live preview refreshed.';
+                        fb.classList.remove('hidden');
+                        setTimeout(() => fb.classList.add('hidden'), 4000);
+                    }
+                } else {
+                    alert('Update error: ' + data.error);
+                }
+            } catch (e) {
+                alert('Network error while updating images.');
+            }
+        }
+
+        async function copyHTML() {
+            try {
+                const res = await fetch('/raw_html');
+                const text = await res.text();
+                await navigator.clipboard.writeText(text);
+                const btn = document.getElementById('copyBtn');
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Copied!';
+                btn.classList.replace('bg-surface-container', 'bg-tertiary/20');
+                btn.classList.add('text-tertiary', 'border-tertiary/40');
+                setTimeout(() => {
+                    btn.innerHTML = orig;
+                    btn.classList.replace('bg-tertiary/20', 'bg-surface-container');
+                    btn.classList.remove('text-tertiary', 'border-tertiary/40');
+                }, 3000);
+            } catch (e) {
+                alert('Failed to copy. Please download the HTML file.');
+            }
+        }
+    </script>
+</body>
+</html>
